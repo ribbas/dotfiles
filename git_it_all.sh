@@ -12,8 +12,11 @@ function parse_git_dirty {
 }
 
 cd "$1"
-echo "Contents of $1:" 
-PURDY_MENU=$(expr length "Contents of $1:")
+
+MENU_STR="Contents of $1:"
+PURDY_MENU=$(expr length $MENU_STR)
+
+echo $MENU_STR
 printf '=%.0s' {1..$PURDY_MENU}
 echo "\n"
 ls -d */

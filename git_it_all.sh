@@ -11,24 +11,28 @@ function parse_git_dirty {
   [[ "$(git status 2> /dev/null | tail -n1)" != "no changes"* ]] && echo "*"
 }
 
-cd "$1"
+function go_back {
+    cd $ABS_PATH    
+}
 
+ABS_PATH=$(pwd)
+DIR_TREE=$(find $1 -type d -not -path "*.git*" -not -path "*.venv*")
 MENU_STR="Contents of $1:"
-PURDY_MENU=$(expr length $MENU_STR)
+MENU_LEN=$(expr length $MENU_STR)
 
-echo $MENU_STR
-printf '=%.0s' {1..$PURDY_MENU}
-echo "\n"
+cd "$1"
+printf "$MENU_STR \n"
+printf "=%.0s" {1..$MENU_LEN}
+printf "\n"
 ls -d */
-echo "\n"
+printf "\n"
+go_back
 
-for entry in "$search_dir"*
+for repo in "${(f)DIR_TREE}"
 do
-    if [[ -d $entry ]]; then
-        cd "$entry"
-        if [[ $(parse_git_dirty) != "*" ]]; then
-            echo "$entry has uncommitted changes"
-        fi
-        cd ..
+    cd "$repo"
+    if [[ $(parse_git_dirty) != "*" && -d ".git" ]]; then
+        echo "$repo has uncommitted changes"
     fi
+    go_back
 done

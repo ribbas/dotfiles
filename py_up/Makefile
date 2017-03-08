@@ -4,18 +4,6 @@ VENV="$(shell find . -name ".*env")"
 IN_VENV="$(shell python env.py)"
 REQ=requirements.txt
 
-.PHONY: clean
-clean:
-	# clean out cache and temporary files
-	@find . -name "*.pyc" -name "__pycache__" -type d -delete
-
-
-.PHONY: test
-test:
-	# run backend unit tests
-	@nosetests -v -w tests && rm -rf "tests/test_output.csv" "tests/responses/"
-
-
 .PHONY: install
 install:
 	# install the virtual environment
@@ -34,3 +22,15 @@ update:
 	# update PIP requirements
 	@test 1 -eq $(IN_VENV) && pip freeze | grep -Ev "PyInstaller|nose" > $(REQ) \
 	|| echo 'Activate virtual environment first'
+
+
+.PHONY: clean
+clean:
+	# clean out cache and temporary files
+	@find . -name "*.pyc" -name "__pycache__" -type d -delete
+
+
+.PHONY: test
+test:
+	# run backend unit tests with nose
+	@nosetests -v -w tests

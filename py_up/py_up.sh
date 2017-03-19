@@ -21,9 +21,12 @@ else
     virtualenv .venv
 fi
 
-# add helper scripts and directories
+# initialize project structure
 mkdir $dirname tests
 touch requirements.txt $dirname/__init__.py
+echo ".venv*/\n*.pyc\n__pycache__/" > .gitignore
+
+# add helper scripts and directories
 cp ~/helper-scripts/py_up/env.py ~/helper-scripts/py_up/Makefile .
 
 # update virtualenv

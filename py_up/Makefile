@@ -1,7 +1,8 @@
 # Makefile to ease trivial tasks for the project
 
 VENV="$(shell find . -name ".*env")"
-IN_VENV="$(shell python env.py)"
+IN_VENV="$(shell [ "/usr/local/bin/python" = $(shell which python) ] && \
+	echo 0 || echo 1)"
 REQ=requirements.txt
 
 .PHONY: install

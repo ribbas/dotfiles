@@ -27,7 +27,7 @@ touch requirements.txt $dirname/__init__.py
 echo ".venv*/\n*.pyc\n__pycache__/" > .gitignore
 
 # add helper scripts and directories
-cp ~/helper-scripts/py_up/env.py ~/helper-scripts/py_up/Makefile .
+cp ~/helper-scripts/py_up/Makefile .
 
 # update virtualenv
 source .venv*/bin/activate

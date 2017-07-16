@@ -9,7 +9,7 @@ set -o errexit
 # (major, minor or patch). If no argument is provided, the script will attempt
 # to parse the last git commit message to increment.
 # 
-# NOTE: This script grabs the __version__ string from `$basename*version.py`
+# NOTE: This script grabs the VERSTR from `$basename*version.py`
 # If the version string is located elsewhere, modify VERPATH.
 # 
 # Usage:
@@ -17,6 +17,7 @@ set -o errexit
 
 # find version files
 VERPATH=$(find . -path "*/.venv" -prune -o -name $basename"*version.py" -print)
+VERSTR="__version__"  # version string variable
 
 # in case of multiple results
 if [[ -z ${VERPATH} ]] || [[ $(echo ${VERPATH} | wc -l) != 1 ]]; then
@@ -32,7 +33,7 @@ fi
 incr () {
 
     # grab the version line
-    ver_line=$(cat ${VERPATH} | grep "__version__")
+    ver_line=$(cat ${VERPATH} | grep "${VERSTR}")
 
     # grab the nth integer of the version string, and increment it
     incr_bump=$(expr $(echo ${ver_line} | grep -o -E "[0-9]+" | sed "$1q;d") \
@@ -40,16 +41,12 @@ incr () {
 
 }
 
-bump_patch () {
-
-    # replace the version string with the incremented version
-    new_ver=$(echo ${ver_line} | sed "s/\(.*[0-9]\.\)[0-9]*/\1${incr_bump}/")
-
-}
-
 bump_major () {
 
-    # replace the version string with the incremented version
+    incr 1;  # grab and increment the first integer of the version
+
+    # replace all the integers with 0, then the first integer with the
+    # incremented version
     new_ver=$(echo ${ver_line} | sed "s/\([0-9]\+\)/0/g" | \
         sed "0,/\([0-9]\+\)/s/\([0-9]\+\)/${incr_bump}/")
 
@@ -57,23 +54,32 @@ bump_major () {
 
 bump_minor () {
 
-    # replace the version string with the incremented version
+    incr 2;  # grab and increment the first integer of the version
+
+    # replace the last integer with 0, then the second integer with the
+    # incremented version
     new_ver=$(echo ${ver_line} | sed "s/\(.*[0-9]\.\)[0-9]*/\10/" | \
         sed "s/\(\.*[0-9]\.\)[0-9]*/\1${incr_bump}/")
 
 }
 
+bump_patch () {
+
+    incr 3;  # grab and increment the first integer of the version
+
+    # replace the last integer with the incremented version
+    new_ver=$(echo ${ver_line} | sed "s/\(.*[0-9]\.\)[0-9]*/\1${incr_bump}/")
+
+}
+
 # if argument is provided as "major", "minor" or "patch"
 if [[ $1 = "major" ]]; then
-    incr 1;
     bump_major;
 
 elif [[ $1 = "minor" ]]; then
-    incr 2;
     bump_minor;
 
 elif [[ $1 = "patch" ]]; then
-    incr 3;
     bump_patch;
 
 # if no argument is provided, attempt to parse the last commit message
@@ -82,15 +88,12 @@ else
     commit_msg=$(<.git/COMMIT_EDITMSG);
 
     if echo "${commit_msg}" | grep "major" &> /dev/null; then
-        incr 1;
         bump_major;
 
     elif echo "${commit_msg}" | grep "minor" &> /dev/null; then
-        incr 2;
         bump_minor;
 
     else
-        incr 3;
         bump_patch;
 
     fi
@@ -102,4 +105,4 @@ else
 fi
 
 # replace the version in the file
-sed -i "/__version__/ c ${new_ver}" ${VERPATH}
+sed -i "/${VERSTR}/ c ${new_ver}" ${VERPATH}

@@ -25,9 +25,6 @@ if [[ -z ${VERPATH} ]] || [[ $(echo ${VERPATH} | wc -l) != 1 ]]; then
         "directory closest to the version file, or modify the path here.";
     exit 1;
 
-else
-    echo "Version file found at ${VERPATH}"
-
 fi
 
 incr () {
@@ -73,6 +70,8 @@ bump () {
 
 }
 
+echo "Version file found at ${VERPATH}"
+
 # if argument is provided as "major", "minor" or "patch"
 if [[ $1 = "major" ]]; then
     bump 1;
@@ -104,3 +103,5 @@ else
     git commit --amend --no-edit
 
 fi
+
+echo "Version file ${VERPATH} updated"

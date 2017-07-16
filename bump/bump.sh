@@ -41,46 +41,47 @@ incr () {
 
 }
 
-bump_major () {
+bump () {
 
-    incr 1;  # grab and increment the first integer of the version
+    incr $1;
 
-    # replace all the integers with 0, then the first integer with the
-    # incremented version
-    new_ver=$(echo ${ver_line} | sed "s/\([0-9]\+\)/0/g" | \
-        sed "0,/\([0-9]\+\)/s/\([0-9]\+\)/${incr_bump}/")
+    case "$1" in
 
-}
+        "1")
+            # replace all the integers with 0, then the first integer with the
+            # incremented version
+            new_ver=$(echo ${ver_line} | sed "s/\([0-9]\+\)/0/g" | \
+                sed "0,/\([0-9]\+\)/s/\([0-9]\+\)/${incr_bump}/")
 
-bump_minor () {
+            ;;
+        "2")
+            # replace the last integer with 0, then the second integer with the
+            # incremented version
+            new_ver=$(echo ${ver_line} | sed "s/\(.*[0-9]\.\)[0-9]*/\10/" | \
+                sed "s/\(\.*[0-9]\.\)[0-9]*/\1${incr_bump}/")
+            ;;
 
-    incr 2;  # grab and increment the first integer of the version
+        "3")
+            # replace the last integer with the incremented version
+            new_ver=$(echo ${ver_line} | sed "s/\(.*[0-9]\.\)[0-9]*/\1${incr_bump}/")
+            ;;
 
-    # replace the last integer with 0, then the second integer with the
-    # incremented version
-    new_ver=$(echo ${ver_line} | sed "s/\(.*[0-9]\.\)[0-9]*/\10/" | \
-        sed "s/\(\.*[0-9]\.\)[0-9]*/\1${incr_bump}/")
+    esac
 
-}
-
-bump_patch () {
-
-    incr 3;  # grab and increment the first integer of the version
-
-    # replace the last integer with the incremented version
-    new_ver=$(echo ${ver_line} | sed "s/\(.*[0-9]\.\)[0-9]*/\1${incr_bump}/")
+    # replace the version in the file
+    sed -i "/${VERSTR}/ c ${new_ver}" ${VERPATH}
 
 }
 
 # if argument is provided as "major", "minor" or "patch"
 if [[ $1 = "major" ]]; then
-    bump_major;
+    bump 1;
 
 elif [[ $1 = "minor" ]]; then
-    bump_minor;
+    bump 2;
 
 elif [[ $1 = "patch" ]]; then
-    bump_patch;
+    bump 3;
 
 # if no argument is provided, attempt to parse the last commit message
 else
@@ -88,13 +89,13 @@ else
     commit_msg=$(<.git/COMMIT_EDITMSG);
 
     if echo "${commit_msg}" | grep "major" &> /dev/null; then
-        bump_major;
+        bump 1;
 
     elif echo "${commit_msg}" | grep "minor" &> /dev/null; then
-        bump_minor;
+        bump 2;
 
     else
-        bump_patch;
+        bump 3;
 
     fi
 
@@ -103,6 +104,3 @@ else
     git commit --amend --no-edit
 
 fi
-
-# replace the version in the file
-sed -i "/${VERSTR}/ c ${new_ver}" ${VERPATH}

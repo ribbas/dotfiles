@@ -1,13 +1,13 @@
 #!/bin/zsh
 
-# py_up
+# pyup
 # 
 # A simple and lazy way to set up Python projects. This script creates a
 # virtualenv with either versions of Python interpreters, upgrades pip
 # configurations and adds enviroment helper scripts and Makefiles
 # 
 # Usage:
-#   ./py_up proj_name <python_ver>
+#   ./pyup proj_name <python_ver>
 
 
 mkdir $1

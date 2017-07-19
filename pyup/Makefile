@@ -1,14 +1,14 @@
 # Makefile to ease trivial tasks for the project
 
 VENV="$(shell find . -name ".*env")"
-IN_VENV="$(shell which python | grep ${VENV})"
+INVENV="$(shell which python | grep ${VENV})"
 REQ="requirements.txt"
 
 
 .PHONY: req-venv
 # checks if virtual environment is activated and exits if it isn't 
 req-venv:
-ifeq (${IN_VENV}, "")
+ifeq (${INVENV}, "")
 	$(error Virtual environment not activated)
 endif
 
@@ -29,7 +29,6 @@ installenv:
 .PHONY: init
 init: req-venv
 	# upgrade PIP on virtual environment
-	# hash password and append it to torrc
 	@pip install -U pip && pip install -r ${REQ}
 
 

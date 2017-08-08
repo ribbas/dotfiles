@@ -98,10 +98,10 @@ else
 
     fi
 
-    # edit last commit by updating version file
-    git add ${VERPATH}
-    git commit --amend --no-edit
-
 fi
+
+# edit last commit by updating version file
+git add ${VERPATH}
+git commit --amend --no-edit
 
 echo "Version file ${VERPATH} updated"

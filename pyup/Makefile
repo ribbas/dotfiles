@@ -6,7 +6,7 @@ REQ="requirements.txt"
 
 
 .PHONY: req-venv
-# checks if virtual environment is activated and exits if it isn't 
+# checks if virtual environment is activated and exits if it isn't
 req-venv:
 ifeq (${INVENV}, "")
 	$(error Virtual environment not activated)
@@ -38,32 +38,13 @@ update: req-venv
 	@pip freeze | grep -v "pkg-resources" > ${REQ}
 
 
-.PHONY: sdist
-sdist: req-venv
-	# compile source distribution
-	@python setup.py sdist
-
-
 .PHONY: test
 test: req-venv
 	# run backend unit tests with nose
 	@nosetests -v -w tests
 
 
-.PHONY: clean-all
-clean-all: clean reset
-
-
 .PHONY: clean
 clean:
 	# clean out cache and temporary files
 	@find . \( -name "*.pyc" -type f -o -name "__pycache__" -type d \) -delete
-
-
-.PHONY: reset
-reset:
-	# remove distribution and raw data files
-	@find . \( -path "./corpus/*" -o -path "./dist/*" -o -path "./data/*" -o \
-		-path "./*.egg-info/*" \) -delete
-	@find . \( -path "./corpus" -o -path "./dist" -o -path "./data" -o \
-		-path "./*.egg-info" \) -empty -delete

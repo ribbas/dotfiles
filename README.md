@@ -1,2 +1,2 @@
 # helper-scripts
-Collection of shell scripts I wrote for personal use
+Collection of shell scripts I wrote for personal use.

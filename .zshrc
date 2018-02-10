@@ -38,7 +38,6 @@ alias prettyjson="python -m json.tool"
 zstyle ':completion:*' menu select
 
 # Color completion for some things.
-color-completion-using-zsh-modules-on.html
 zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS}
 
 # formatting and messages

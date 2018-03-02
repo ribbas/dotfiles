@@ -49,5 +49,5 @@ zstyle ':completion:*:corrections' format '%B%d (errors: %e)%b'
 zstyle ':completion:*' group-name ''
 
 # Completers for custom aliases
-zstyle ':completion:*:*:pdf*:*' file-patterns '*.pdf'
-zstyle ':completion:*:*:prettyjson*:*' file-patterns '*.json'
+zstyle ':completion:*:*:pdf*:*' file-patterns '*.pdf *(-/)'
+zstyle ':completion:*:*:prettyjson*:*' file-patterns '*.json *(-/)'

@@ -24,11 +24,21 @@ source $ZSH/oh-my-zsh.sh
 # Aliases
 # For a full list of active aliases, run `alias`.
 
-highlight () { grep -iE "$1|$" "${@:1}" ; }
+# adds options to change directory to dirname of file
+cd() {
+  [[ ! -e $argv[-1] ]] || [[ -d $argv[-1] ]] || argv[-1]=${argv[-1]%/*}
+  builtin cd "$@"
+}
+
+highlight () { grep -iE "$1|$" "${@:2}" ; }
+search () { grep -irnwc ${@:2} -e $1 | grep -v ":0$" ; }
 pdf () { evince "$@" &> /dev/null & disown; }
+mvthere () { cd "$(cat ~/."$(basename $(echo $SHELL))"_history | grep "mv" | tail -n2 | head -n1 | grep -oE '[^ ]+$')"; }
 
 alias highlight="highlight"
+alias search="search"
 alias pdf="pdf"
+alias mvthere="mvthere"
 alias sysupdate="sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove && sudo apt-get autoclean"
 alias bump="~/helper-scripts/bump/bump.sh"
 alias pyup="~/helper-scripts/pyup/pyup.sh"

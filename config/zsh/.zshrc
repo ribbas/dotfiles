@@ -35,13 +35,13 @@ cdthere() {
 }
 
 
-alias bump="~/helper-scripts/bump/bump.sh"
-alias highlight="~/helper-scripts/highlight/highlight.sh"
+alias bump="~/helper-scripts/scripts/bump.sh"
+alias highlight="~/helper-scripts/scripts/highlight.sh"
 alias cdthere="cdthere"
-alias pdf="~/helper-scripts/pdf/pdf.sh"
+alias pdf="~/helper-scripts/scripts/pdf.sh"
 alias prettyjson="python -m json.tool"
-alias pyup="~/helper-scripts/pyup/pyup.sh"
-alias search="~/helper-scripts/search/search.sh"
+alias pyup="~/helper-scripts/scripts/pyup.sh"
+alias search="~/helper-scripts/scripts/search.sh"
 alias sysupdate="sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove && sudo apt-get autoclean"
 
 # Do menu-driven completion.

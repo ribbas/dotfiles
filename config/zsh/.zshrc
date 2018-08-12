@@ -24,6 +24,9 @@ source $ZSH/oh-my-zsh.sh
 # Aliases
 # For a full list of active aliases, run `alias`.
 
+# directory to custom aliases
+EXTRA_ALIASES=$HOME/.extra-configs
+
 # adds option to change directory to dirname of file
 cd() {
   [[ ! -e $argv[-1] ]] || [[ -d $argv[-1] ]] || argv[-1]=${argv[-1]%/*}
@@ -34,17 +37,16 @@ cdthere() {
   cd "$(history | grep "mv" | tail -n1 | grep -oE '[^ ]+$')";
 }
 
-EXTRA_CONFIGS=$HOME/.helper-scripts
 
-
-alias bump="$EXTRA_CONFIGS/scripts/bump.sh"
-alias highlight="$EXTRA_CONFIGS/scripts/highlight.sh"
+alias bump="$EXTRA_ALIASES/scripts/bump.sh"
+alias highlight="$EXTRA_ALIASES/scripts/highlight.sh"
 alias cdthere="cdthere"
-alias pdf="$EXTRA_CONFIGS/scripts/pdf.sh"
+alias pdf="$EXTRA_ALIASES/scripts/pdf.sh"
 alias prettyjson="python -m json.tool"
-alias pyup="$EXTRA_CONFIGS/scripts/pyup.sh"
-alias search="$EXTRA_CONFIGS/scripts/search.sh"
+alias pyup="$EXTRA_ALIASES/scripts/pyup.sh"
+alias search="$EXTRA_ALIASES/scripts/search.sh"
 alias sysupdate="sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove && sudo apt-get autoclean"
+alias xclip="xclip -selection c"
 
 # Do menu-driven completion.
 zstyle ':completion:*' menu select

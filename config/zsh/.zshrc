@@ -34,14 +34,16 @@ cdthere() {
   cd "$(history | grep "mv" | tail -n1 | grep -oE '[^ ]+$')";
 }
 
+EXTRA_CONFIGS=$HOME/.helper-scripts
 
-alias bump="~/helper-scripts/scripts/bump.sh"
-alias highlight="~/helper-scripts/scripts/highlight.sh"
+
+alias bump="$EXTRA_CONFIGS/scripts/bump.sh"
+alias highlight="$EXTRA_CONFIGS/scripts/highlight.sh"
 alias cdthere="cdthere"
-alias pdf="~/helper-scripts/scripts/pdf.sh"
+alias pdf="$EXTRA_CONFIGS/scripts/pdf.sh"
 alias prettyjson="python -m json.tool"
-alias pyup="~/helper-scripts/scripts/pyup.sh"
-alias search="~/helper-scripts/scripts/search.sh"
+alias pyup="$EXTRA_CONFIGS/scripts/pyup.sh"
+alias search="$EXTRA_CONFIGS/scripts/search.sh"
 alias sysupdate="sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove && sudo apt-get autoclean"
 
 # Do menu-driven completion.

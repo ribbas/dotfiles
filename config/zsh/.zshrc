@@ -45,7 +45,7 @@ alias pdf="$EXTRA_ALIASES/scripts/pdf.sh"
 alias prettyjson="python -m json.tool"
 alias pyup="$EXTRA_ALIASES/scripts/pyup.sh"
 alias search="$EXTRA_ALIASES/scripts/search.sh"
-alias sysupdate="sudo apt-get update && sudo apt-get upgrade -y && sudo apt-get autoremove && sudo apt-get autoclean"
+alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean"
 alias xclip="xclip -selection c"
 
 # Do menu-driven completion.

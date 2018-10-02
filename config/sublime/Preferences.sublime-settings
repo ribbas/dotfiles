@@ -56,13 +56,12 @@
 	[
 		"Vintage"
 	],
-	"preview_on_click": false,
+	"preview_on_click": true,
 	"rulers":
 	[
 		80
 	],
 	"tab_size": 4,
 	"theme": "Material-Theme-Darker.sublime-theme",
-	"translate_tabs_to_spaces": true,
-	"preview_on_click": true
+	"translate_tabs_to_spaces": true
 }

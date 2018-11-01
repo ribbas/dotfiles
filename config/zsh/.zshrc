@@ -47,6 +47,7 @@ alias pyup="$EXTRA_ALIASES/scripts/pyup.sh"
 alias search="$EXTRA_ALIASES/scripts/search.sh"
 alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean"
 alias xclip="xclip -selection c"
+alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
 
 # Do menu-driven completion.
 zstyle ':completion:*' menu select

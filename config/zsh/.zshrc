@@ -66,3 +66,17 @@ zstyle ':completion:*' group-name ''
 # Completers for custom aliases
 zstyle ':completion:*:*:pdf*:*' file-patterns '*.pdf *(-/)'
 zstyle ':completion:*:*:prettyjson*:*' file-patterns '*.json *(-/)'
+
+if [ $(hostname) = "work-vm01" ]; then
+
+    # temporary SST configs
+    export SST_CORE_HOME=$HOME/local/sstcore-8.0.0
+    export SST_ELEMENTS_HOME=$HOME/local/sstelements-8.0.0
+
+    # add bins to PATH
+    # SST
+    export PATH=$SST_CORE_HOME/bin:$PATH
+    # Clion
+    export PATH=/opt/clion-2018.2.5/bin:$PATH
+
+fi

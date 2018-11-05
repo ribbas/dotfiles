@@ -21,26 +21,25 @@ source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
-# Aliases
-# For a full list of active aliases, run `alias`.
-
-# directory to custom aliases
-EXTRA_ALIASES=$HOME/.extra-configs
-
 # adds option to change directory to dirname of file
 cd() {
   [[ ! -e $argv[-1] ]] || [[ -d $argv[-1] ]] || argv[-1]=${argv[-1]%/*}
   builtin cd "$@"
 }
 
+# Aliases
+# For a full list of active aliases, run `alias`.
+
 cdthere() {
   cd "$(history | grep "mv" | tail -n1 | grep -oE '[^ ]+$')";
 }
+alias cdthere="cdthere"
 
+# directory to custom aliases
+EXTRA_ALIASES=$HOME/.extra-configs
 
 alias bump="$EXTRA_ALIASES/scripts/bump.sh"
 alias highlight="$EXTRA_ALIASES/scripts/highlight.sh"
-alias cdthere="cdthere"
 alias pdf="$EXTRA_ALIASES/scripts/pdf.sh"
 alias prettyjson="python -m json.tool"
 alias pyup="$EXTRA_ALIASES/scripts/pyup.sh"
@@ -67,6 +66,7 @@ zstyle ':completion:*' group-name ''
 zstyle ':completion:*:*:pdf*:*' file-patterns '*.pdf *(-/)'
 zstyle ':completion:*:*:prettyjson*:*' file-patterns '*.json *(-/)'
 
+# configs for work machine (work-vm01)
 if [ $(hostname) = "work-vm01" ]; then
 
     # temporary SST configs

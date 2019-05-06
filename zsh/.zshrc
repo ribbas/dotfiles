@@ -27,26 +27,30 @@ cd() {
   builtin cd "$@"
 }
 
-# Aliases
-# For a full list of active aliases, run `alias`.
-
 cdthere() {
   cd "$(history | grep "mv" | tail -n1 | grep -oE '[^ ]+$')";
 }
+
+pdf() {
+  evince "$@" &> /dev/null & disown;
+}
+
+highlight() {
+  grep --color -iE "$1|$" "${@:2}";
+}
+
+
+# Aliases
+# For a full list of active aliases, run `alias`.
+
+alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
 alias cdthere="cdthere"
-
-# directory to custom aliases
-EXTRA_ALIASES=$HOME/.extra-configs
-
-alias bump="$EXTRA_ALIASES/scripts/bump.sh"
-alias highlight="$EXTRA_ALIASES/scripts/highlight.sh"
-alias pdf="$EXTRA_ALIASES/scripts/pdf.sh"
+alias highlight="highlight"
+alias pdf="pdf"
 alias prettyjson="python -m json.tool"
-alias pyup="$EXTRA_ALIASES/scripts/pyup.sh"
-alias search="$EXTRA_ALIASES/scripts/search.sh"
+alias search="search"
 alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean"
 alias xclip="xclip -selection c"
-alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
 
 # Do menu-driven completion.
 zstyle ':completion:*' menu select
@@ -65,18 +69,3 @@ zstyle ':completion:*' group-name ''
 # Completers for custom aliases
 zstyle ':completion:*:*:pdf*:*' file-patterns '*.pdf *(-/)'
 zstyle ':completion:*:*:prettyjson*:*' file-patterns '*.json *(-/)'
-
-# configs for work machine (work-vm01)
-if [ $(hostname) = "work-vm01" ]; then
-
-    # temporary SST configs
-    export SST_CORE_HOME=$HOME/local/sstcore-8.0.0
-    export SST_ELEMENTS_HOME=$HOME/local/sstelements-8.0.0
-
-    # add bins to PATH
-    # SST
-    export PATH=$SST_CORE_HOME/bin:$PATH
-    # Clion
-    export PATH=/opt/clion-2018.2.5/bin:$PATH
-
-fi

@@ -81,7 +81,7 @@ highlight() {
 }
 
 fd() {
-  xdg-open $1 &> /dev/null;
+  [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
 }
 
 

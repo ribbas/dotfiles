@@ -84,6 +84,10 @@ fd() {
   [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
 }
 
+pdf() {
+  evince "$@" &>/dev/null & disown;
+}
+
 
 # Aliases
 # For a full list of active aliases, run `alias`.
@@ -93,7 +97,7 @@ alias cdthere="cdthere"
 alias fd="fd"
 alias highlight="highlight"
 alias ls="colorls"
-alias pdf="evince "$@" &> /dev/null & disown"
+alias pdf="pdf"
 alias prettyjson="python -m json.tool"
 alias search="search"
 alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean"

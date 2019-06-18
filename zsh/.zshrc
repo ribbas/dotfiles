@@ -78,30 +78,32 @@ cdthere() {
   cd "$(history | grep "mv\|cp" | tail -n1 | grep -oE '[^ ]+$')";
 }
 
-highlight() {
-  grep --color -iE "$1|$" "${@:2}";
+gui() {
+  [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
 }
 
-fd() {
-  [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
+# highlight - colored grep
+hl() {
+  grep --color -iE "$1|$" "${@:2}";
 }
 
 pdf() {
   evince "$@" &>/dev/null & disown;
 }
 
-search() {
+# string count - search for string in collection of files
+sc() {
   grep -irnc ${@:2} -e $1 | grep -v ":0$";
 }
 
 alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
 alias cdthere="cdthere"
-alias fd="fd"
-alias highlight="highlight"
+alias hl="hl"
+alias gui="gui"
 alias ls="colorls"
 alias pdf="pdf"
 alias prettyjson="python -m json.tool"
-alias search="search"
+alias sc="sc"
 alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean"
 alias xclip="xclip -selection c"
 

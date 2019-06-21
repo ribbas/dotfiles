@@ -108,6 +108,7 @@ alias pdf="pdf"
 alias prettyjson="python -m json.tool"
 alias sc="sc"
 alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean"
+alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate"
 alias xclip="xclip -selection c"
 
 # colorize man pages

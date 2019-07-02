@@ -101,6 +101,12 @@ sc() {
   grep -irnc ${@:2} -e $1 | grep -v ":0$";
 }
 
+sysupdate() {
+  sudo apt update -y && sudo apt upgrade -y &&
+  sudo apt autoremove -y && sudo apt autoclean -y &&
+  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] && git pull
+}
+
 alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
 alias cdthere="cdthere"
 alias hl="hl"
@@ -109,7 +115,7 @@ alias ls="colorls"
 alias pdf="pdf"
 alias prettyjson="python -m json.tool"
 alias sc="sc"
-alias sysupdate="sudo apt update && sudo apt upgrade -y && sudo apt autoremove && sudo apt autoclean"
+alias sysupdate="sysupdate"
 alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate"
 alias xclip="xclip -selection c"
 

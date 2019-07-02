@@ -104,7 +104,7 @@ sc() {
 sysupdate() {
   sudo apt update -y && sudo apt upgrade -y &&
   sudo apt autoremove -y && sudo apt autoclean -y &&
-  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] && git pull
+  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] && git pull && cd -
 }
 
 alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"

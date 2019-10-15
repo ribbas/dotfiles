@@ -20,7 +20,7 @@ POWERLEVEL9K_VCS_CLEAN_BACKGROUND="green"
 POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND="black"
 POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="orangered1"
 POWERLEVEL9K_VCS_MODIFIED_FOREGROUND="black"
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="yellow"
+POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="darkorange"
 POWERLEVEL9K_VCS_UNTRACKED_ICON="\uf059" 
 POWERLEVEL9K_VCS_UNSTAGED_ICON="\uf06a"
 POWERLEVEL9K_VCS_STAGED_ICON="\uf055"
@@ -101,10 +101,12 @@ sc() {
   grep -irnc ${@:2} -e $1 | grep -v ":0$";
 }
 
-sysupdate() {
+update() {
   sudo apt update -y && sudo apt upgrade -y &&
   sudo apt autoremove -y && sudo apt autoclean -y &&
-  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] && git pull && cd -
+  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] && git pull ||
+  echo "Uncommitted changes to zshrc";
+  cd -
 }
 
 alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
@@ -115,8 +117,8 @@ alias ls="colorls"
 alias pdf="pdf"
 alias prettyjson="python -m json.tool"
 alias sc="sc"
-alias sysupdate="sysupdate"
-alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate"
+alias update="update"
+alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate || echo 'No virtual environment found'"
 alias xclip="xclip -selection c"
 
 # colorize man pages

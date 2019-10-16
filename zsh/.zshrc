@@ -104,7 +104,8 @@ sc() {
 update() {
   sudo apt update -y && sudo apt upgrade -y &&
   sudo apt autoremove -y && sudo apt autoclean -y &&
-  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] && git pull ||
+  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
+  { git pull; cp sublime/* $HOME/.config/sublime*/Packages/User/ } ||
   echo "Uncommitted changes to zshrc";
   cd -
 }

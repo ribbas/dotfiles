@@ -1,6 +1,6 @@
 {
-     "auto_formatting": true,
+    "auto_formatting": true,
      // Maximum line length for pep8
-    "pep8_max_line_length": 80,
+    "pep8_max_line_length": 100,
   
 }

@@ -78,6 +78,7 @@ cd() {
 
 # Aliases
 # For a full list of active aliases, run `alias`.
+alias xclip="xclip -selection c"
 
 cdthere() {
   cd "$(history | grep "mv\|cp" | tail -n1 | grep -oE '[^ ]+$')";
@@ -98,14 +99,14 @@ pdf() {
 
 # string count - search for string in collection of files
 sc() {
-  grep -irnc ${@:2} -e $1 | grep -v ":0$";
+  grep -irnc ${@:2} -e $1 | grep -v ":0$" && { echo -n $1 | xclip };
 }
 
 update() {
   sudo apt update -y && sudo apt upgrade -y &&
   sudo apt autoremove -y && sudo apt autoclean -y &&
   cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
-  { git pull; cp sublime/* $HOME/.config/sublime*/Packages/User/ } ||
+  { git pull; ln -f sublime/* $HOME/.config/sublime*/Packages/User/ } ||
   echo "Uncommitted changes to zshrc";
   cd -
 }
@@ -120,7 +121,6 @@ alias prettyjson="python -m json.tool"
 alias sc="sc"
 alias update="update"
 alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate || echo 'No virtual environment found'"
-alias xclip="xclip -selection c"
 
 # colorize man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'

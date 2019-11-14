@@ -1,4 +1,8 @@
 {
+	"added_words":
+	[
+		"uninstalling"
+	],
 	"binary_file_patterns":
 	[
 		"*.tbz2",
@@ -54,6 +58,21 @@
 	"font_size": 11,
 	"ignored_packages":
 	[
+		"ActionScript",
+		"AppleScript",
+		"ASP",
+		"Batch File",
+		"Clojure",
+		"D",
+		"Diff",
+		"Erlang",
+		"Groovy",
+		"Haskell",
+		"Lisp",
+		"Lua",
+		"OCaml",
+		"Pascal",
+		"Textile",
 		"Vintage"
 	],
 	"preview_on_click": true,

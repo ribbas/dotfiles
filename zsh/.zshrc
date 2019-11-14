@@ -3,8 +3,6 @@
 # Path to your oh-my-zsh installation.
 export ZSH=/home/sabbir/.oh-my-zsh
 
-# Set name of the theme to load. Optionally, if you set this to "random"
-# it'll load a random theme each time that oh-my-zsh is loaded.
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
@@ -85,48 +83,7 @@ cd() {
 
 # Aliases
 # For a full list of active aliases, run `alias`.
-alias xclip="xclip -selection c"
-
-cdthere() {
-  cd "$(history | grep "mv\|cp" | tail -n1 | grep -oE '[^ ]+$')";
-}
-
-gui() {
-  [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
-}
-
-# highlight - colored grep
-hl() {
-  grep --color -iE "$1|$" "${@:2}";
-}
-
-pdf() {
-  evince "$@" &>/dev/null & disown;
-}
-
-# string count - search for string in collection of files
-sc() {
-  grep -irnc ${@:2} -e $1 | grep -v ":0$" && { echo -n $1 | xclip };
-}
-
-update() {
-  sudo apt update -y && sudo apt upgrade -y &&
-  sudo apt autoremove -y && sudo apt autoclean -y &&
-  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
-  { git pull; ln -f sublime/* $HOME/.config/sublime*/Packages/User/ } ||
-  echo "Uncommitted changes to zshrc";
-  cd -
-}
-
-alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
-alias cdthere="cdthere"
-alias hl="hl"
-alias gui="gui"
-alias ls="colorls"
-alias pdf="pdf"
-alias sc="sc"
-alias update="update"
-alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate || echo 'No virtual environment found'"
+source ~/.aliases
 
 # colorize man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'

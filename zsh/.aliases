@@ -1,0 +1,50 @@
+# ZSH aliases file
+
+alias xclip="xclip -selection c"
+
+cdthere() {
+  cd "$(history | grep "mv\|cp" | tail -n1 | grep -oE '[^ ]+$')";
+}
+
+eno () {
+  num=$(echo $?)
+  [ "${num}" -ne "0" ] && errno ${num} || echo "Last command executed successfully"
+}
+
+gui() {
+  [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
+}
+
+# highlight - colored grep
+hl() {
+  grep --color -iE "$1|$" "${@:2}";
+}
+
+pdf() {
+  evince "$@" &>/dev/null & disown;
+}
+
+# string count - search for string in collection of files
+sc() {
+  grep -irnc ${@:2} -e $1 | grep -v ":0$" && { echo -n $1 | xclip };
+}
+
+update() {
+  sudo apt update -y && sudo apt upgrade -y &&
+  sudo apt autoremove -y && sudo apt autoclean -y &&
+  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
+  { git pull; ln -f sublime/* $HOME/.config/sublime*/Packages/User/; ln -f zsh/* $HOME/ } ||
+  echo "Uncommitted changes to zshrc";
+  cd -
+}
+
+alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
+alias cdthere="cdthere"
+alias eno="eno"
+alias hl="hl"
+alias gui="gui"
+alias ls="colorls"
+alias pdf="pdf"
+alias sc="sc"
+alias update="update"
+alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate || echo 'No virtual environment found'"

@@ -1,34 +1,49 @@
+#!/bin/sh
+
 # ZSH aliases file
 
+alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
+alias ls="colorls"
 alias xclip="xclip -selection c"
+alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate || echo 'No virtual environment found'"
 
+# change directory to the last directory a file or directory was copied or moved to
 cdthere() {
   cd "$(history | grep "mv\|cp" | tail -n1 | grep -oE '[^ ]+$')";
 }
+alias cdthere="cdthere"
 
-eno () {
-  num=$(echo $?)
-  [ "${num}" -ne "0" ] && errno ${num} || echo "Last command executed successfully"
+# print last errno
+eno() {
+  _e=$(($(echo $?)))
+  [ ${_e} -ne 0 ] && { [ ${_e} -le 134 ] && errno ${_e} || echo "${_e} Unknown error" } || true
 }
+alias eno="eno"
 
 gui() {
   [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
 }
+alias gui="gui"
 
 # highlight - colored grep
 hl() {
   grep --color -iE "$1|$" "${@:2}";
 }
+alias hl="hl"
 
+# open a PDF file with the evince viewer
 pdf() {
   evince "$@" &>/dev/null & disown;
 }
+alias pdf="pdf"
 
 # string count - search for string in collection of files
 sc() {
   grep -irnc ${@:2} -e $1 | grep -v ":0$" && { echo -n $1 | xclip };
 }
+alias sc="sc"
 
+# update system
 update() {
   sudo apt update -y && sudo apt upgrade -y &&
   sudo apt autoremove -y && sudo apt autoclean -y &&
@@ -37,14 +52,4 @@ update() {
   echo "Uncommitted changes to zshrc";
   cd -
 }
-
-alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
-alias cdthere="cdthere"
-alias eno="eno"
-alias hl="hl"
-alias gui="gui"
-alias ls="colorls"
-alias pdf="pdf"
-alias sc="sc"
 alias update="update"
-alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate || echo 'No virtual environment found'"

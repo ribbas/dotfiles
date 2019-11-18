@@ -67,9 +67,6 @@ HYPHEN_INSENSITIVE="true"
 # completion.
 COMPLETION_WAITING_DOTS="true"
 
-# Plugins
-plugins=(git)
-
 source $ZSH/oh-my-zsh.sh
 source $(dirname $(gem which colorls))/tab_complete.sh
 

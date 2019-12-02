@@ -76,8 +76,8 @@ strr() {
   w /dev/fd/2
   x
   }" {} \;
-  read -k $'?\nApply changes [y/N]? ' apply
-  if [ "${apply}" = "y" ]; then
+  read -k $'?\nApply changes [Y/n]? ' apply
+  if [ "${apply}" = "Y" ] || [ "${apply}" = "y" ]; then
     find . -type f -exec sed -i "s/${1}/${2}/g" {} \;
   fi
 }
@@ -85,7 +85,8 @@ strr() {
 # compare files to check if they are linked
 sameln() {
   _in=$(stat ${1} -c%i)
-  [ ${_in} -eq $(stat ${2} -c%i) ] && echo "${1} and ${2} are links (Inode: ${_in})" || echo "${1} and ${2} are not links"
+  [ ${_in} -eq $(stat ${2} -c%i) ] && echo "${1} and ${2} are links (Inode: ${_in})" ||
+  echo "${1} and ${2} are not links"
 }
 
 # update system
@@ -93,7 +94,7 @@ update() {
   sudo apt update -y && sudo apt upgrade -y &&
   sudo apt autoremove -y && sudo apt autoclean -y &&
   cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
-  { git pull; ln -f sublime/* $HOME/.config/sublime*/Packages/User/; ln -f zsh/* $HOME/ } ||
+  { git pull; ln -f sublime/* $HOME/.config/sublime*/Packages/User/; ln -f zsh/.* $HOME/ } ||
   echo "Uncommitted changes found";
   cd -
 }

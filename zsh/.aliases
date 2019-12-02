@@ -5,7 +5,6 @@
 alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
 alias ls="colorls"
 alias xclip="xclip -selection c"
-alias venv="[ -f .venv/bin/activate ] && source .venv/bin/activate || echo 'No virtual environment found'"
 
 # Git aliases
 alias ga="git add -A"
@@ -97,4 +96,16 @@ update() {
   { git pull; ln -f sublime/* $HOME/.config/sublime*/Packages/User/; ln -f zsh/.* $HOME/ } ||
   echo "Uncommitted changes found";
   cd -
+}
+
+# Python virtual environment
+venv() {
+  if [ -d .venv ]; then
+    source .venv/bin/activate
+  else
+    read -k $'?No virtual environment found. Create one? [Y/n]: ' create
+    if [ "${create}" = "Y" ] || [ "${create}" = "y" ]; then
+      python -m venv .venv && source .venv/bin/activate
+    fi
+  fi
 }

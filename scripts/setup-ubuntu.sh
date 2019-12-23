@@ -14,21 +14,22 @@ print_help () {
 essentials () {
     # GCC and Makefile
     echo "Installing GNU tools..."
-    sudo apt install gcc make curl wget
-    sudo apt install build-essential libssl-dev libffi-dev
-    sudo apt install apt-transport-https ca-certificates software-properties-common
+    sudo apt install gcc make curl wget -y
+    sudo apt install build-essential libssl-dev libffi-dev -y
+    sudo apt install apt-transport-https ca-certificates software-properties-common -y
     # Gnome tweaks and extensions
     echo "Installing Gnome tweaks..."
-    sudo apt install gnome-tweaks gnome-shell-extensions chrome-gnome-shell
+    sudo apt install gnome-tweaks gnome-shell-extensions chrome-gnome-shell -y
 }
 
 extra_configs () {
     # wrapping up extra configurations
     echo "Setting up extra configurations..."
-    git clone https://github.com/sabbirahm3d/dotfiles .dotfiles
-    ln -f .dotfiles/sublime/* $HOME/.config/sublime*/Packages/User/
-    ln -f .dotfiles/zsh/.* $HOME/
-    sudo ln .dotfiles/scripts/toc.py /usr/bin/toc
+    # git clone https://github.com/sabbirahm3d/dotfiles .dotfiles
+    ln -f ../sublime/* $HOME/.config/sublime*/Packages/User/
+    ln -f ../zsh/.aliases $HOME/.aliases
+    ln -f ../zsh/.zshrc $HOME/.zshrc
+    sudo ln toc.py /usr/bin/toc
 }
 
 while [ ! $# -eq 0 ]
@@ -51,7 +52,7 @@ do
         --vm)
             # VM guest tools
             echo "Installing VM Tools..."
-            sudo apt install open-vm-tools-desktop
+            sudo apt install open-vm-tools-desktop -y
             ;;
 
         --sys)

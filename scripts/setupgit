@@ -10,7 +10,6 @@ setup_git() {
     if [ -z $username ] || [ -z $email ]; then
         echo "Provide both your GitHub username and email\nExample: \`username email\`"
     else
-        sudo apt install git
         git config --global user.name $username
         git config --global user.email $email
         git config --global credential.helper store

@@ -7,7 +7,8 @@ alias ls="colorls"
 alias xclip="xclip -selection c"
 
 # Git aliases
-alias ga="git add -A"
+alias ga="git add"
+alias gaa="git add -A"
 alias gb="git branch"
 alias gx="git clean -f -X"
 alias gxh="git clean -f -d"
@@ -86,6 +87,11 @@ sameln() {
   _in=$(stat ${1} -c%i)
   [ ${_in} -eq $(stat ${2} -c%i) ] && echo "${1} and ${2} are links (Inode: ${_in})" ||
   echo "${1} and ${2} are not links"
+}
+
+unmv() {
+  files=$(history | grep "mv" | tail -n1 | awk -F"mv" '{print $(NF)}')
+  mv $(echo $files | cut -f3 -d' ') $(echo $files | cut -f2 -d' ')
 }
 
 # update system

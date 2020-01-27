@@ -7,7 +7,7 @@ setup_zsh () {
     sudo apt install zsh
     touch .zshrc
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) --unattended"
-    echo 'if [ -t 1 ]; then\n\texec zsh\nfi' > ${HOME}/.bashrc
+    echo -e "if [ -t 1 ]; then\nwhich zsh &>/dev/null && exec zsh\nfi" > ${HOME}/.bashrc
 
     # customized ls
     echo "Installing colorls..."

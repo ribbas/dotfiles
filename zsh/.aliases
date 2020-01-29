@@ -6,12 +6,27 @@ alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Com
 alias ls="colorls"
 alias xclip="xclip -selection c"
 
+gx() {
+    read -k $'?Remove all files ignored by Git? [Y/n]: ' clean
+    if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
+        git clean -f -X $1
+    fi
+}
+
+gxh() {
+    git clean -d -n $1
+    read -k $'?Remove all untracked files and directories? [Y/n]: ' clean
+    if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
+        git clean -f -d $1
+    fi
+}
+
 # Git aliases
 alias ga="git add"
 alias gaa="git add -A"
 alias gb="git branch"
-alias gx="git clean -f -X"
-alias gxh="git clean -f -d"
+alias gx="gx"
+alias gxh="gxh"
 alias gc="git commit -m"
 alias gca="git commit -am"
 alias gch="git checkout"
@@ -21,7 +36,7 @@ alias gds="git diff --staged"
 alias gf="git fetch"
 alias gl="git log"
 alias gp="git push origin"
-alias gpl="git pull"
+alias gpl="git pull origin"
 alias gr="git reset"
 alias grh="git reset --hard"
 alias gt="git stash"

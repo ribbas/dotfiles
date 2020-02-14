@@ -111,8 +111,7 @@ unmv() {
 
 # update system
 update() {
-  sudo apt update -y && sudo apt upgrade -y &&
-  sudo apt autoremove -y && sudo apt autoclean -y &&
+  sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y
   cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
   { git pull; ln -f sublime/* $HOME/.config/sublime*/Packages/User/; ln -f zsh/.* $HOME/ } ||
   echo "Uncommitted changes found";

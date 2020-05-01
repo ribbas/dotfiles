@@ -1,10 +1,10 @@
 #!/bin/sh
 set -o errexit
 
-source ./setupgit
-source ./setuppython
-source ./installzsh
-source ./setupsubl
+source ./setup-git
+source ./setup-python
+source ./setup-zsh
+source ./setup-subl
 
 print_help () {
     echo "Good luck lol"

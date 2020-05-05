@@ -63,12 +63,15 @@ HIST_STAMPS="mm/dd/yyyy"
 # Hyphen-insensitive completion. _ and - will be interchangeable.
 HYPHEN_INSENSITIVE="true"
 
-# Uncomment the following line to display red dots whilst waiting for
-# completion.
+# Display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
 source $ZSH/oh-my-zsh.sh
 source $(dirname $(gem which colorls))/tab_complete.sh
+
+if [[ -a ~/.work-configs ]]; then
+    source ~/.work-configs
+fi
 
 # User configuration
 

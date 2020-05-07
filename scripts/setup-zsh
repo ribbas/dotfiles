@@ -4,14 +4,14 @@ set -o errexit
 setup_zsh () {
     # ZSH and other shell configs
     echo "Installing ZSH..."
-    sudo apt install zsh
+    sudo apt install zsh -y
     touch .zshrc
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) --unattended"
     echo -e "if [ -t 1 ]; then\nwhich zsh &>/dev/null && exec zsh\nfi" > ${HOME}/.bashrc
 
     # customized ls
     echo "Installing colorls..."
-    sudo apt install ruby-full
+    sudo apt install ruby-full -y
     sudo gem install colorls
 
     # download ccat from https://github.com/jingweno/ccat/releases

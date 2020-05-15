@@ -1,0 +1,3 @@
+[submodule ".private-configs"]
+	path = .private-configs
+	url = https://github.com/sabbirahm3d/.private-configs

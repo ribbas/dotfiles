@@ -47,6 +47,10 @@ alias gst="git status"
 # print all Git aliases
 alias galias="alias | grep \"='git \" --color=never"
 
+bulk() {
+  eval "find ${3} -name '${1}' -exec ${2} {} \;"
+}
+
 # change directory to the last directory a file or directory was copied or moved to
 cdthere() {
   cd "$(history | grep "mv\|cp" | tail -n1 | grep -oE '[^ ]+$')";

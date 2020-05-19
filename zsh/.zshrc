@@ -69,8 +69,8 @@ COMPLETION_WAITING_DOTS="true"
 source $ZSH/oh-my-zsh.sh
 source $(dirname $(gem which colorls))/tab_complete.sh
 
-if [[ -a .private-configs/work ]]; then
-    source .private-configs/work
+if [[ -a $HOME/.dotfiles/.private-configs/work ]]; then
+    source $HOME/.dotfiles/.private-configs/work
 fi
 
 # User configuration

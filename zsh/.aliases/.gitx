@@ -1,0 +1,48 @@
+#!/bin/sh
+
+# Git aliases for ZSH
+
+gx() {
+  read -k $'?Remove all files ignored by Git? [Y/n]: ' clean
+  if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
+    git clean -f -X $1
+  fi
+}
+
+gxh() {
+  git clean -d -n $1
+  read -k $'?Remove all untracked files and directories? [Y/n]: ' clean
+  if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
+    git clean -f -d $1
+  fi
+}
+
+gsub() {
+  git submodule update
+  git submodule foreach git checkout $1
+  git submodule foreach git pull origin $1
+}
+
+# Git aliases
+alias ga="git add"
+alias gaa="git add -A"
+alias gb="git branch"
+alias gc="git commit -m"
+alias gca="git commit -am"
+alias gch="git checkout"
+alias gcl="git clone"
+alias gd="git diff"
+alias gdh="git diff HEAD"
+alias gds="git diff --staged"
+alias gf="git fetch"
+alias gl="git log"
+alias gp="git push origin"
+alias gpl="git pull origin"
+alias gr="git reset"
+alias grh="git reset --hard"
+alias gt="git stash"
+alias gtp="git stash pop"
+alias gst="git status"
+
+# print all Git aliases
+alias galias="alias | grep \"='git \" --color=never"

@@ -10,29 +10,28 @@ alias xclip="xclip -selection c"
 
 # Print alias function
 aprint() {
+  str=$(cat ${HOME}/.aliases | grep -Poz "(?s)(?<=$1\(\) {\n).*?(?=\n})" | sed -E 's/^[ ]{2}//g')
+  if [[ ! -z ${str} ]]; then
+      echo ${str}
+      return
+  fi
 
-    str=$(cat ${HOME}/.aliases | grep -Poz "(?s)$1\(\).*?\n}")
-    if [[ ! -z ${str} ]]; then
-        echo ${str}
-        return
-    fi
+  str=$(cat ${HOME}/.aliases | grep -Po "(?<=$1=\").[^\"]*")
+  if [[ ! -z ${str} ]]; then
+      echo ${str}
+      return
+  fi
 
-    str=$(cat ${HOME}/.aliases | grep -Po "(?<=$1=\").[^\"]*")
-    if [[ ! -z ${str} ]]; then
-        echo ${str}
-        return
-    fi
+  str=$(cat ${HOME}/.git-aliases | grep -Poz "(?s)(?<=$1\(\) {\n).*?(?=\n})" | sed -E 's/^[ ]{2}//g')
+  if [[ ! -z ${str} ]]; then
+      echo ${str}
+      return
+  fi
 
-    str=$(cat ${HOME}/.git-aliases | grep -Poz "(?s)$1\(\).*?\n}")
-    if [[ ! -z ${str} ]]; then
-        echo ${str}
-        return
-    fi
-
-    str=$(cat ${HOME}/.git-aliases | grep -Po "(?<=$1=\").[^\"]*")
-    if [[ ! -z ${str} ]]; then
-        echo ${str}
-    fi
+  str=$(cat ${HOME}/.git-aliases | grep -Po "(?<=$1=\").[^\"]*")
+  if [[ ! -z ${str} ]]; then
+      echo ${str}
+  fi
 }
 
 bulk() {

@@ -3,24 +3,24 @@
 # Git aliases for ZSH
 
 gx() {
-    read -k $'?Remove all files ignored by Git? [Y/n]: ' clean
-    if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
-        git clean -f -X $1
-    fi
+  read -k $'?Remove all files ignored by Git? [Y/n]: ' clean
+  if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
+    git clean -f -X $1
+  fi
 }
 
 gxh() {
-    git clean -d -n $1
-    read -k $'?Remove all untracked files and directories? [Y/n]: ' clean
-    if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
-        git clean -f -d $1
-    fi
+  git clean -d -n $1
+  read -k $'?Remove all untracked files and directories? [Y/n]: ' clean
+  if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
+    git clean -f -d $1
+  fi
 }
 
 gsub() {
-    git submodule update
-    git submodule foreach git checkout $1
-    git submodule foreach git pull origin $1
+  git submodule update
+  git submodule foreach git checkout $1
+  git submodule foreach git pull origin $1
 }
 
 # Git aliases

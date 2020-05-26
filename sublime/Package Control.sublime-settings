@@ -12,6 +12,7 @@
 		"BracketHighlighter",
 		"ChangeQuotes",
 		"CMakeEditor",
+		"EditorConfig",
 		"FileSystem Autocompletion",
 		"Increment Selection",
 		"LaTeXing",

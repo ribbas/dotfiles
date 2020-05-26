@@ -66,12 +66,8 @@ HYPHEN_INSENSITIVE="true"
 # Display red dots whilst waiting for completion.
 COMPLETION_WAITING_DOTS="true"
 
-source $ZSH/oh-my-zsh.sh
+source ${ZSH}/oh-my-zsh.sh
 source $(dirname $(gem which colorls))/tab_complete.sh
-
-if [[ -a ${HOME}/.dotfiles/.private-configs/work ]]; then
-    source ${HOME}/.dotfiles/.private-configs/work
-fi
 
 # User configuration
 
@@ -84,6 +80,12 @@ cd() {
 # Aliases
 # For a full list of active aliases, run `alias`.
 source ${HOME}/.aliases
+
+if [[ -d ${HOME}/.private-configs ]]; then
+  for file in ${HOME}/.private-configs/*; do
+    source "$file"
+  done
+fi
 
 # colorize man pages
 export LESS_TERMCAP_mb=$'\e[1;32m'

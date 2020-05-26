@@ -9,7 +9,7 @@ alias ls="colorls"
 alias xclip="xclip -selection c"
 
 # Print alias function
-aman() {
+aprint() {
 
     str=$(cat ${HOME}/.aliases | grep -Poz "(?s)$1\(\).*?\n}")
     if [[ ! -z ${str} ]]; then
@@ -105,7 +105,11 @@ unmv() {
 update() {
   sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y
   cd ${HOME}/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
-  { git pull; ln -f sublime/* ${HOME}/.config/sublime*/Packages/User/; ln -f zsh/.* ${HOME}/ } ||
+  {
+    git pull;
+    ln -f sublime/* ${HOME}/.config/sublime*/Packages/User/;
+    ln -f zsh/.* ${HOME}/;
+    ln -f .private-configs/* ${HOME}/.private-configs/* } ||
   echo "Uncommitted changes found";
   cd -
 }

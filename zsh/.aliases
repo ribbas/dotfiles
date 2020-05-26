@@ -2,57 +2,38 @@
 
 # ZSH aliases and functions file
 
+source ${HOME}/.git-aliases
+
 alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
 alias ls="colorls"
 alias xclip="xclip -selection c"
 
-gx() {
-    read -k $'?Remove all files ignored by Git? [Y/n]: ' clean
-    if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
-        git clean -f -X $1
+# Print alias function
+aman() {
+
+    str=$(cat ${HOME}/.aliases | grep -Poz "(?s)$1\(\).*?\n}")
+    if [[ ! -z ${str} ]]; then
+        echo ${str}
+        return
+    fi
+
+    str=$(cat ${HOME}/.aliases | grep -Po "(?<=$1=\").[^\"]*")
+    if [[ ! -z ${str} ]]; then
+        echo ${str}
+        return
+    fi
+
+    str=$(cat ${HOME}/.git-aliases | grep -Poz "(?s)$1\(\).*?\n}")
+    if [[ ! -z ${str} ]]; then
+        echo ${str}
+        return
+    fi
+
+    str=$(cat ${HOME}/.git-aliases | grep -Po "(?<=$1=\").[^\"]*")
+    if [[ ! -z ${str} ]]; then
+        echo ${str}
     fi
 }
-
-gxh() {
-    git clean -d -n $1
-    read -k $'?Remove all untracked files and directories? [Y/n]: ' clean
-    if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
-        git clean -f -d $1
-    fi
-}
-
-gsub() {
-    git submodule update
-    git submodule foreach git checkout $1
-    git submodule foreach git pull origin $1
-}
-
-# Git aliases
-alias ga="git add"
-alias gaa="git add -A"
-alias gb="git branch"
-alias gx="gx"
-alias gxh="gxh"
-alias gc="git commit -m"
-alias gca="git commit -am"
-alias gch="git checkout"
-alias gcl="git clone"
-alias gd="git diff"
-alias gdh="git diff HEAD"
-alias gds="git diff --staged"
-alias gf="git fetch"
-alias gl="git log"
-alias gp="git push origin"
-alias gpl="git pull origin"
-alias gr="git reset"
-alias grh="git reset --hard"
-alias gt="git stash"
-alias gtp="git stash pop"
-alias gst="git status"
-alias gsub="gsub"
-
-# print all Git aliases
-alias galias="alias | grep \"='git \" --color=never"
 
 bulk() {
   eval "find ${3} -name '${1}' -exec ${2} {} \;"
@@ -71,11 +52,6 @@ eno() {
 
 gui() {
   [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
-}
-
-# highlight - colored grep
-hl() {
-  grep --color -iE "$1|$" "${@:2}";
 }
 
 # open a PDF file with the evince viewer
@@ -112,6 +88,7 @@ strr() {
 samefile() {
   cmp -s $1 $2 && echo "$1 and $2 are the same file" || echo "$1 and $2 are different"
 }
+
 # compare files to check if they are linked
 sameln() {
   _in=$(stat ${1} -c%i)
@@ -127,8 +104,8 @@ unmv() {
 # update system
 update() {
   sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y
-  cd $HOME/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
-  { git pull; ln -f sublime/* $HOME/.config/sublime*/Packages/User/; ln -f zsh/.* $HOME/ } ||
+  cd ${HOME}/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
+  { git pull; ln -f sublime/* ${HOME}/.config/sublime*/Packages/User/; ln -f zsh/.* ${HOME}/ } ||
   echo "Uncommitted changes found";
   cd -
 }

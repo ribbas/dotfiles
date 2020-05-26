@@ -79,7 +79,11 @@ cd() {
 
 # Aliases
 # For a full list of active aliases, run `alias`.
-source ${HOME}/.aliases
+if [[ -d ${HOME}/.aliases ]]; then
+  for file in ${HOME}/.aliases/.*; do
+    source "$file"
+  done
+fi
 
 if [[ -d ${HOME}/.private-configs ]]; then
   for file in ${HOME}/.private-configs/*; do

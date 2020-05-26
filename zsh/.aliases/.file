@@ -1,0 +1,48 @@
+#!/bin/sh
+
+
+bulk() {
+  eval "find ${3} -name '${1}' -exec ${2} {} \;"
+}
+
+# change directory to the last directory a file or directory was copied or moved to
+cdthere() {
+  cd "$(history | grep "mv\|cp" | tail -n1 | grep -oE '[^ ]+$')";
+}
+
+gui() {
+  [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
+}
+
+# open a PDF file with the Evince viewer
+pdf() {
+  evince "$@" &>/dev/null & disown;
+}
+
+samefile() {
+  cmp -s $1 $2 && echo "$1 and $2 are the same file" || echo "$1 and $2 are different"
+}
+
+# compare files to check if they are linked
+sameln() {
+  _in=$(stat ${1} -c%i)
+  [ ${_in} -eq $(stat ${2} -c%i) ] && echo "${1} and ${2} are links (Inode: ${_in})" ||
+  echo "${1} and ${2} are not links"
+}
+
+unmv() {
+  files=$(history | grep "mv" | tail -n1 | awk -F"mv" '{print $(NF)}')
+  mv $(echo $files | cut -f3 -d' ') $(echo $files | cut -f2 -d' ')
+}
+
+# Python virtual environment
+venv() {
+  if [ -d .venv ]; then
+    source .venv/bin/activate
+  else
+    read -k $'?No virtual environment found. Create one? [Y/n]: ' create
+    if [ "${create}" = "Y" ] || [ "${create}" = "y" ]; then
+      python -m venv .venv && source .venv/bin/activate
+    fi
+  fi
+}

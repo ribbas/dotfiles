@@ -1,0 +1,29 @@
+#!/bin/sh
+
+# ZSH aliases and functions file for string manipulation
+
+strc() {
+  { { grep -src"${3}" ${1} ${2} } || { echo "String not found"; return; } } | grep -v ":0$"
+}
+
+strs() {
+  { grep -srn"${3}" ${1} ${2} -C ${4:-5} } || echo "String not found"
+}
+
+strr() {
+  blue=$(tput setaf 4)
+  normal=$(tput sgr0)
+  find . -type f -printf "\n${blue}%p${normal}:\n" -exec sed --quiet "/${1}/{
+  h
+  s//${2}/g
+  H
+  x
+  s/\n/ >>> /
+  w /dev/fd/2
+  x
+  }" {} \;
+  read -k $'?\nApply changes [Y/n]? ' apply
+  if [ "${apply}" = "Y" ] || [ "${apply}" = "y" ]; then
+    find . -type f -exec sed -i "s/${1}/${2}/g" {} \;
+  fi
+}

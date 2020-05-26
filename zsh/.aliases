@@ -21,6 +21,12 @@ gxh() {
     fi
 }
 
+gsub() {
+    git submodule update
+    git submodule foreach git checkout $1
+    git submodule foreach git pull origin $1
+}
+
 # Git aliases
 alias ga="git add"
 alias gaa="git add -A"
@@ -43,6 +49,7 @@ alias grh="git reset --hard"
 alias gt="git stash"
 alias gtp="git stash pop"
 alias gst="git status"
+alias gsub="gsub"
 
 # print all Git aliases
 alias galias="alias | grep \"='git \" --color=never"
@@ -102,6 +109,9 @@ strr() {
   fi
 }
 
+samefile() {
+  cmp -s $1 $2 && echo "$1 and $2 are the same file" || echo "$1 and $2 are different"
+}
 # compare files to check if they are linked
 sameln() {
   _in=$(stat ${1} -c%i)

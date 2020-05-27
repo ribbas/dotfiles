@@ -22,7 +22,8 @@ strr() {
   w /dev/fd/2
   x
   }" {} \;
-  read -k $'?\nApply changes [Y/n]? ' apply
+  read -q "apply?\nApply changes [Y/n]? "
+  echo
   if [ "${apply}" = "Y" ] || [ "${apply}" = "y" ]; then
     find . -type f -exec sed -i "s/${1}/${2}/g" {} \;
   fi

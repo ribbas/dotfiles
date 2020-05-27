@@ -40,7 +40,8 @@ venv() {
   if [ -d .venv ]; then
     source .venv/bin/activate
   else
-    read -k $'?No virtual environment found. Create one? [Y/n]: ' create
+    read -q "create?No virtual environment found. Create one? [Y/n]: "
+    echo
     if [ "${create}" = "Y" ] || [ "${create}" = "y" ]; then
       python -m venv .venv && source .venv/bin/activate
     fi

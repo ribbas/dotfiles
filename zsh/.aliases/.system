@@ -11,13 +11,13 @@ aprint() {
   for file in ${HOME}/.aliases/.*; do
     str=$(cat ${file} | grep -Poz "(?s)(?<=$1\(\) {\n).*?(?=\n})" | sed -E 's/^[ ]{2}//g')
     if [[ ! -z ${str} ]]; then
-        echo ${str}
+        echo -E ${str}
         return
     fi
 
     str=$(cat ${file} | grep -Po "(?<=$1=\").[^\"]*")
     if [[ ! -z ${str} ]]; then
-        echo ${str}
+        echo -E ${str}
         return
     fi
   done
@@ -33,11 +33,8 @@ eno() {
 update() {
   sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y
   cd ${HOME}/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
-  {
-    git pull;
-    ln -f sublime/* ${HOME}/.config/sublime*/Packages/User;
-    ln -f zsh/.zshrc ${HOME};
-    ln -f zsh/.aliases/.* ${HOME}/.aliases;
+  { git pull; ln -f sublime/* ${HOME}/.config/sublime*/Packages/User;
+    ln -f zsh/.zshrc ${HOME}; ln -f zsh/.aliases/.* ${HOME}/.aliases;
     ln -f .private-configs/* ${HOME}/.private-configs } ||
   echo "Uncommitted changes found";
   cd -

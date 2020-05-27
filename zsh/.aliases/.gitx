@@ -3,7 +3,8 @@
 # Git aliases for ZSH
 
 gx() {
-  read -k $'?Remove all files ignored by Git? [Y/n]: ' clean
+  read -q "clean?Remove all files ignored by Git? [Y/n]: "
+  echo
   if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
     git clean -f -X $1
   fi
@@ -11,7 +12,8 @@ gx() {
 
 gxh() {
   git clean -d -n $1
-  read -k $'?Remove all untracked files and directories? [Y/n]: ' clean
+  read -q "clean?Remove all untracked files and directories? [Y/n]: "
+  echo
   if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
     git clean -f -d $1
   fi

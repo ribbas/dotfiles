@@ -1,8 +1,70 @@
 #!/bin/sh
 
+# Zsh aliases for file utilities
 
 bulk() {
-  eval "find ${3} -name '${1}' -exec ${2} {} \;"
+
+  [ $# -eq 0 ] && return 1
+  _path="."
+  _file=""
+  _exec=""
+  while [ ! $# -eq 0 ]
+  do
+    case "$1" in
+
+      -p | --path)
+        _path="$2"
+        ;;
+
+      -f | --file)
+        [ ! -z "${_file}" ] && _file="${_file}-o "
+        _file="${_file}-name \"*.$2\" "
+        ;;
+
+      -d | --dir)
+        [ ! -z "${_file}" ] && _file="${_file}-o "
+        _file="${_file}-type d -name \"*$2\" "
+        ;;
+
+      -e | --exec)
+        _exec="${_exec}-exec $2 {} \; "
+        ;;
+
+      -h | --help)
+        echo "Convenient wrapper for find utilizing piped commands"
+        return 0
+        ;;
+
+      *)
+        return 1
+        ;;
+
+    esac
+    shift
+    shift
+  done
+
+  all_files=$(eval "find ${_path} \( ${_file}\) -print | sort")
+  if [ -z "${all_files}" ]; then
+    echo "No matching files found"
+  else
+    echo "Following files would be affected:\n"
+    echo ${all_files}
+    echo
+    read -q "confirm?Continue? [Y/n]: "
+    echo
+    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+      [ ! -z "${_exec}" ] && eval "find ${_path} \( ${_file}\) ${_exec}"
+    fi
+  fi
+
+}
+
+# count files in current directory
+countf() {
+  [ -z "$1" ] && _dir="." || _dir="$1"
+  echo "$(find ${_dir}/* -maxdepth 0 | wc -l) files"
+  echo "$(find ${_dir}/* -maxdepth 0 -type d | wc -l) directories"
 }
 
 # change directory to the last directory a file or directory was copied or moved to

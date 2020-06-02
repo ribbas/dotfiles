@@ -2,6 +2,15 @@
 
 # Zsh aliases for file utilities
 
+alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
+alias xclip="xclip -selection c"
+
+alias ls="colorls"
+alias l="ls -lah"
+alias la="ls -lAh"
+alias ll="ls -lh"
+alias lr="ls --report --gs -A"
+
 bulk() {
 
   [ $# -eq 0 ] && return 1
@@ -16,14 +25,24 @@ bulk() {
         _path="$2"
         ;;
 
-      -f | --file)
-        [ ! -z "${_file}" ] && _file="${_file}-o "
-        _file="${_file}-name \"*.$2\" "
-        ;;
+      -n | --name | -f | --file | -d | --dir)
 
-      -d | --dir)
         [ ! -z "${_file}" ] && _file="${_file}-o "
-        _file="${_file}-type d -name \"*$2\" "
+        case "$1" in
+
+          -n | --name)
+            _file="${_file}-name \"$2\" "
+            ;;
+
+          -f | --file)
+            _file="${_file}-name \"*.$2\" "
+            ;;
+
+          -d | --dir)
+            _file="${_file}-type d -name \"*$2\" "
+            ;;
+
+        esac
         ;;
 
       -e | --exec)
@@ -60,16 +79,10 @@ bulk() {
 
 }
 
-# count files in current directory
-countf() {
-  [ -z "$1" ] && _dir="." || _dir="$1"
-  echo "$(find ${_dir}/* -maxdepth 0 | wc -l) files"
-  echo "$(find ${_dir}/* -maxdepth 0 -type d | wc -l) directories"
-}
-
 # change directory to the last directory a file or directory was copied or moved to
-cdthere() {
-  cd "$(history | grep "mv\|cp" | tail -n1 | grep -oE '[^ ]+$')";
+follow() {
+  _new_path=$(history | grep 'mv\|cp' | tail -n1 | grep -oE '[^ ]+$' | sed 's@~@'${HOME}'@g')
+  [ -f "${_new_path}" ] && cd $(dirname ${_new_path}) || cd ${_new_path}
 }
 
 gui() {
@@ -92,9 +105,66 @@ sameln() {
   echo "${1} and ${2} are not links"
 }
 
+unmkdir() {
+  _file=$(history | grep "\smkdir\s" | tail -n1 | awk 'NF>1{ print $(NF) }' | sed 's@~@'${HOME}'@g')
+
+  read -q "confirm?Remove \"${_file}\"? [Y/n]: "
+  echo
+  if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+    rm -r ${_file}
+  fi
+}
+
+uncp() {
+  _files=$(history | grep "\scp\s" | tail -n1 | awk -F"cp" '{print $(NF)}' | sed 's@~@'${HOME}'@g')
+  _file1=$(echo ${_files} | awk 'NF>1{ print $(NF) }')
+  _file2=$(echo ${_files} | awk 'NF>1{ print $(NF-1) }')
+  [ -d "${_file1}" ] && _file1="${_file1}/$(basename ${_file2})"
+
+  read -q "confirm?Remove \"${_file1}\"? [Y/n]: "
+  echo
+  if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+    rm -rf ${_file1}
+  fi
+}
+
 unmv() {
-  files=$(history | grep "mv" | tail -n1 | awk -F"mv" '{print $(NF)}')
-  mv $(echo $files | cut -f3 -d' ') $(echo $files | cut -f2 -d' ')
+  _files=$(history | grep "\smv\s" | tail -n1 | awk -F"mv" '{print $(NF)}' | sed 's@~@'${HOME}'@g')
+  _file1=$(echo ${_files} | awk 'NF>1{ print $(NF) }')
+  _file2=$(echo ${_files} | awk 'NF>1{ print $(NF-1) }')
+  if [ -d "${_file1}" ]; then
+    __file1="${_file1}/$(basename ${_file2})"
+    [ -d "${__file1}" ] && _file1="${__file1}"
+  fi
+
+  [ "${_file1}" = "${PWD}/${_file2}" ] && \
+    { echo -e "Original working directory is different from \
+current working directory\nTried to move \"${_file1}\" to \"${_file2}\""; return 1 }
+
+  read -q "confirm?Move \"${_file1}\" to \"${_file2}\"? [Y/n]: "
+  echo
+  if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+    mv ${_file1} ${_file2}
+  fi
+}
+
+undo() {
+  _last_cmd=$(history | grep -Po "(?<=\s)(mv|cp|mkdir)(?=\s)" | tail -n1)
+  case "${_last_cmd}" in
+
+    cp)
+      uncp
+      ;;
+
+    mv)
+      unmv
+      ;;
+
+    mkdir)
+      unmkdir
+      ;;
+
+  esac
 }
 
 # Python virtual environment

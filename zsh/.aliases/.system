@@ -2,10 +2,6 @@
 
 # ZSH aliases for system utility functions
 
-alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
-alias ls="colorls"
-alias xclip="xclip -selection c"
-
 # Print alias function
 aprint() {
   for file in ${HOME}/.aliases/.*; do

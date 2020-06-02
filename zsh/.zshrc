@@ -12,7 +12,7 @@ POWERLEVEL9K_SHORTEN_STRATEGY="truncate_beginning"
 
 POWERLEVEL9K_TIME_BACKGROUND="black"
 POWERLEVEL9K_TIME_FOREGROUND="249"
-POWERLEVEL9K_TIME_FORMAT="\uf017 %D{%I:%M \uf073 %m/%d/%y}"
+POWERLEVEL9K_TIME_FORMAT="\uf017 %D{%I:%M}"
 
 POWERLEVEL9K_STATUS_VERBOSE=false
 
@@ -78,13 +78,13 @@ cd() {
 }
 
 # Aliases
-# For a full list of active aliases, run `alias`.
 if [[ -d ${HOME}/.aliases ]]; then
   for file in ${HOME}/.aliases/.*; do
     source "$file"
   done
 fi
 
+# Private configs
 if [[ -d ${HOME}/.private-configs ]]; then
   for file in ${HOME}/.private-configs/*; do
     source "$file"

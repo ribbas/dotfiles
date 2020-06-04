@@ -81,7 +81,7 @@ bulk() {
 
 # change directory to the last directory a file or directory was copied or moved to
 follow() {
-  _new_path=$(history | grep 'mv\|cp' | tail -n1 | grep -oE '[^ ]+$' | sed 's@~@'${HOME}'@g')
+  _new_path=$(history | grep -P "\s(mv|cp)\s" | tail -n1 | grep -oE '[^ ]+$' | sed 's@~@'${HOME}'@g')
   [ -f "${_new_path}" ] && cd $(dirname ${_new_path}) || cd ${_new_path}
 }
 
@@ -105,8 +105,22 @@ sameln() {
   echo "${1} and ${2} are not links"
 }
 
+# Python virtual environment
+venv() {
+  if [ -d .venv ]; then
+    source .venv/bin/activate
+  else
+    read -q "create?No virtual environment found. Create one? [Y/n]: "
+    echo
+    if [ "${create}" = "Y" ] || [ "${create}" = "y" ]; then
+      python -m venv .venv && source .venv/bin/activate
+    fi
+  fi
+}
+
 unmkdir() {
   _file=$(history | grep "\smkdir\s" | tail -n1 | awk 'NF>1{ print $(NF) }' | sed 's@~@'${HOME}'@g')
+  [[ "${_file}" != "${HOME}"* ]] && _file="${PWD}/${_file}"
 
   read -q "confirm?Remove \"${_file}\"? [Y/n]: "
   echo
@@ -116,35 +130,57 @@ unmkdir() {
 }
 
 uncp() {
-  _files=$(history | grep "\scp\s" | tail -n1 | awk -F"cp" '{print $(NF)}' | sed 's@~@'${HOME}'@g')
-  _file1=$(echo ${_files} | awk 'NF>1{ print $(NF) }')
-  _file2=$(echo ${_files} | awk 'NF>1{ print $(NF-1) }')
-  [ -d "${_file1}" ] && _file1="${_file1}/$(basename ${_file2})"
+  _files=$(history | grep "\scp\s" | tail -n1 | awk -F"cp " '{print $(NF)}' | sed 's@~@'${HOME}'@g')
+  _file1=$(echo ${_files} | awk 'NF>1{ print $(NF-1) }')
+  _file2=$(echo ${_files} | awk 'NF>1{ print $(NF) }')
+  [[ "${_file1}" != "${HOME}"* ]] && _file1="${PWD}/${_file1}"
+  [[ "${_file2}" != "${HOME}"* ]] && _file2="${PWD}/${_file2}"
 
-  read -q "confirm?Remove \"${_file1}\"? [Y/n]: "
-  echo
-  if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
-    rm -rf ${_file1}
+  if [ "${_file1}" != "${_file2}" ]; then
+
+    if [ -d "${_file2}" ]; then
+      echo "${_file2} is a directory"
+      _file2="${_file2}/$(basename ${_file1})"
+    else
+      if [ -d "${_file1}" ]; then
+        return
+      fi
+    fi
+
+    read -q "confirm?Remove \"${_file2}\"? [Y/n]: "
+    echo
+    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+      rm -r ${_file2}
+    fi
   fi
 }
 
 unmv() {
-  _files=$(history | grep "\smv\s" | tail -n1 | awk -F"mv" '{print $(NF)}' | sed 's@~@'${HOME}'@g')
-  _file1=$(echo ${_files} | awk 'NF>1{ print $(NF) }')
-  _file2=$(echo ${_files} | awk 'NF>1{ print $(NF-1) }')
-  if [ -d "${_file1}" ]; then
-    __file1="${_file1}/$(basename ${_file2})"
-    [ -d "${__file1}" ] && _file1="${__file1}"
-  fi
+  _files=$(history | grep "\smv\s" | tail -n1 | awk -F"mv " '{print $(NF)}' | sed 's@~@'${HOME}'@g')
+  _file1=$(echo ${_files} | awk 'NF>1{ print $(NF-1) }')
+  _file2=$(echo ${_files} | awk 'NF>1{ print $(NF) }')
+  [[ "${_file1}" != "${HOME}"* ]] && _file1="${PWD}/${_file1}"
+  [[ "${_file2}" != "${HOME}"* ]] && _file2="${PWD}/${_file2}"
 
-  [ "${_file1}" = "${PWD}/${_file2}" ] && \
-    { echo -e "Original working directory is different from \
+  if [ "${_file1}" != "${_file2}" ]; then
+
+    if [ -d "${_file2}" ]; then
+      _file2="${_file2}/$(basename ${_file1})"
+    else
+      if [ -d "${_file1}" ]; then
+        return
+      fi
+    fi
+
+    [ "${_file2}" = "${_file1}" ] && \
+      { echo -e "Original working directory is different from \
 current working directory\nTried to move \"${_file1}\" to \"${_file2}\""; return 1 }
 
-  read -q "confirm?Move \"${_file1}\" to \"${_file2}\"? [Y/n]: "
-  echo
-  if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
-    mv ${_file1} ${_file2}
+    read -q "confirm?Move \"${_file2}\" to \"${_file1}\"? [Y/n]: "
+    echo
+    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+      mv ${_file2} ${_file1}
+    fi
   fi
 }
 
@@ -165,17 +201,4 @@ undo() {
       ;;
 
   esac
-}
-
-# Python virtual environment
-venv() {
-  if [ -d .venv ]; then
-    source .venv/bin/activate
-  else
-    read -q "create?No virtual environment found. Create one? [Y/n]: "
-    echo
-    if [ "${create}" = "Y" ] || [ "${create}" = "y" ]; then
-      python -m venv .venv && source .venv/bin/activate
-    fi
-  fi
 }

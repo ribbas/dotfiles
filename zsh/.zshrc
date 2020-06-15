@@ -77,6 +77,33 @@ cd() {
   builtin cd "$@"
 }
 
+# adds preprocessing to saving command history
+zshaddhistory() {
+
+  setopt RE_MATCH_PCRE
+  1=$(echo ${1} | sed 's@~@'${HOME}'@g')
+  if [[ ${1} =~ "(?<=\W|^)(cp|mv)(?=\s)" ]]; then
+
+    _file1=$(echo ${1} | awk 'NF>1{ print $(NF-1) }')
+    _file2=$(echo ${1} | awk 'NF>1{ print $(NF) }')
+    [[ "${_file1}" != "${HOME}"* ]] && _file1="${PWD}/${_file1}"
+    [[ "${_file2}" != "${HOME}"* ]] && _file2="${PWD}/${_file2}"
+    export LAST_CMD="${match[1]} ${_file1} ${_file2}"
+    export UNDO=
+
+  elif [[ ${1} =~ "(?<=\W|^)(mkdir)(?=\s)" ]]; then
+
+    _file=$(echo ${1} | awk 'NF>1{ print $(NF) }')
+    [[ "${_file}" != "${HOME}"* ]] && _file="${PWD}/${_file}"
+    export LAST_CMD="${match[1]} ${_file}"
+    export UNDO=
+
+  fi
+
+  return 0
+
+}
+
 # Aliases
 if [[ -d ${HOME}/.aliases ]]; then
   for file in ${HOME}/.aliases/.*; do

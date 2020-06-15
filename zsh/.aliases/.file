@@ -119,27 +119,36 @@ venv() {
 }
 
 unmkdir() {
-  _file=$(history | grep "\smkdir\s" | tail -n1 | awk 'NF>1{ print $(NF) }' | sed 's@~@'${HOME}'@g')
-  [[ "${_file}" != "${HOME}"* ]] && _file="${PWD}/${_file}"
+  _file=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF) }')
 
-  read -q "confirm?Remove \"${_file}\"? [Y/n]: "
-  echo
-  if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
-    rm -r ${_file}
+  echo "Undoing 'mkdir'"
+  if [ ! -z "${UNDO}" ]; then
+
+    read -q "confirm?Make directory \"${_file}\"? [Y/n]: "
+    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+      eval ${LAST_CMD} && export UNDO=
+    fi
+
+  else
+
+    read -q "confirm?Remove \"${_file}\"? [Y/n]: "
+    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+      rm -r ${_file} && export LAST_CMD="mkdir ${_file}" && export UNDO="1"
+
+    fi
+
   fi
+  echo
+
 }
 
 uncp() {
-  _files=$(history | grep "\scp\s" | tail -n1 | awk -F"cp " '{print $(NF)}' | sed 's@~@'${HOME}'@g')
-  _file1=$(echo ${_files} | awk 'NF>1{ print $(NF-1) }')
-  _file2=$(echo ${_files} | awk 'NF>1{ print $(NF) }')
-  [[ "${_file1}" != "${HOME}"* ]] && _file1="${PWD}/${_file1}"
-  [[ "${_file2}" != "${HOME}"* ]] && _file2="${PWD}/${_file2}"
+  _file1=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF-1) }')
+  _file2=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF) }')
 
   if [ "${_file1}" != "${_file2}" ]; then
 
     if [ -d "${_file2}" ]; then
-      echo "${_file2} is a directory"
       _file2="${_file2}/$(basename ${_file1})"
     else
       if [ -d "${_file1}" ]; then
@@ -147,20 +156,31 @@ uncp() {
       fi
     fi
 
-    read -q "confirm?Remove \"${_file2}\"? [Y/n]: "
-    echo
-    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
-      rm -r ${_file2}
+    echo "Undoing 'cp'"
+    if [ ! -z "${UNDO}" ]; then
+
+      read -q "confirm?Copy \"${_file1}\" to \"${_file2}\"? [Y/n]: "
+      if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+        eval ${LAST_CMD} && export UNDO=
+      fi
+
+    else
+
+      read -q "confirm?Remove \"${_file2}\"? [Y/n]: "
+      if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+        rm -r ${_file2} && export LAST_CMD="cp ${_file1} ${_file2}" && export UNDO="1"
+
+      fi
+
     fi
+    echo
+
   fi
 }
 
 unmv() {
-  _files=$(history | grep "\smv\s" | tail -n1 | awk -F"mv " '{print $(NF)}' | sed 's@~@'${HOME}'@g')
-  _file1=$(echo ${_files} | awk 'NF>1{ print $(NF-1) }')
-  _file2=$(echo ${_files} | awk 'NF>1{ print $(NF) }')
-  [[ "${_file1}" != "${HOME}"* ]] && _file1="${PWD}/${_file1}"
-  [[ "${_file2}" != "${HOME}"* ]] && _file2="${PWD}/${_file2}"
+  _file1=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF-1) }')
+  _file2=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF) }')
 
   if [ "${_file1}" != "${_file2}" ]; then
 
@@ -172,21 +192,19 @@ unmv() {
       fi
     fi
 
-    [ "${_file2}" = "${_file1}" ] && \
-      { echo -e "Original working directory is different from \
-current working directory\nTried to move \"${_file1}\" to \"${_file2}\""; return 1 }
-
+    echo "Undo 'mv'?"
     read -q "confirm?Move \"${_file2}\" to \"${_file1}\"? [Y/n]: "
-    echo
     if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
-      mv ${_file2} ${_file1}
+      mv ${_file2} ${_file1} && export LAST_CMD="mv ${_file2} ${_file1}" && export UNDO="1"
     fi
+    echo
+
   fi
 }
 
 undo() {
-  _last_cmd=$(history | grep -Po "(?<=\s)(mv|cp|mkdir)(?=\s)" | tail -n1)
-  case "${_last_cmd}" in
+
+  case "$(echo ${LAST_CMD} | grep -Po "(mv|cp|mkdir)(?=\s)")" in
 
     cp)
       uncp
@@ -201,4 +219,5 @@ undo() {
       ;;
 
   esac
+
 }

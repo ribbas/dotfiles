@@ -19,13 +19,13 @@ aprint() {
   done
 }
 
-# print last errno
+# Display error number of last command
 eno() {
   _e=$(($(echo $?)))
   [ ${_e} -ne 0 ] && { [ ${_e} -le 134 ] && errno ${_e} || echo "${_e} Unknown error" } || true
 }
 
-# update system
+# Chain apt update and clean commands and refresh alias links
 update() {
   sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y
   cd ${HOME}/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&

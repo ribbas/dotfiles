@@ -2,6 +2,14 @@
 
 # Git aliases for ZSH
 
+# Update Git submodule
+gsub() {
+  git submodule update
+  git submodule foreach git checkout $1
+  git submodule foreach git pull origin $1
+}
+
+# Remove all files in gitignore
 gx() {
   read -q "clean?Remove all files ignored by Git? [Y/n]: "
   echo
@@ -10,6 +18,7 @@ gx() {
   fi
 }
 
+# Remove all untracked files and directories
 gxh() {
   git clean -d -n $1
   read -q "clean?Remove all untracked files and directories? [Y/n]: "
@@ -17,12 +26,6 @@ gxh() {
   if [ "${clean}" = "Y" ] || [ "${clean}" = "y" ]; then
     git clean -f -d $1
   fi
-}
-
-gsub() {
-  git submodule update
-  git submodule foreach git checkout $1
-  git submodule foreach git pull origin $1
 }
 
 # Git aliases

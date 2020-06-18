@@ -11,8 +11,8 @@ alias la="ls -lAh"
 alias ll="ls -lh"
 alias lr="ls --report --gs -A"
 
+# Convenient and safe wrapper for `find` utilizing piped commands
 bulk() {
-
   [ $# -eq 0 ] && return 1
   _path="."
   _file=""
@@ -76,72 +76,37 @@ bulk() {
       [ ! -z "${_exec}" ] && eval "find ${_path} \( ${_file}\) ${_exec}"
     fi
   fi
-
 }
 
-# change directory to the last directory a file or directory was copied or moved to
+# Change current working directory to the last directory a file or directory was copied or moved to via `cp` or `mv`
 follow() {
   _new_path=$(history | grep -P "\s(mv|cp)\s" | tail -n1 | grep -oE '[^ ]+$' | sed 's@~@'${HOME}'@g')
   [ -f "${_new_path}" ] && cd $(dirname ${_new_path}) || cd ${_new_path}
 }
 
+# Run `xdg-open` on path
 gui() {
-  [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null;
+  [ -z "$1" ] && xdg-open . &>/dev/null || xdg-open $1 &>/dev/null
 }
 
-# open a PDF file with the Evince viewer
+# Open a PDF file with the Evince viewer
 pdf() {
-  evince "$@" &>/dev/null & disown;
+  evince "$@" &>/dev/null & disown
 }
 
+# Compare 2 files to check if they have the same contents
 samefile() {
   cmp -s $1 $2 && echo "$1 and $2 are the same file" || echo "$1 and $2 are different"
 }
 
-# compare files to check if they are linked
+# Compare 2 files to check if they are linked
 sameln() {
   _in=$(stat ${1} -c%i)
   [ ${_in} -eq $(stat ${2} -c%i) ] && echo "${1} and ${2} are links (Inode: ${_in})" ||
   echo "${1} and ${2} are not links"
 }
 
-# Python virtual environment
-venv() {
-  if [ -d .venv ]; then
-    source .venv/bin/activate
-  else
-    read -q "create?No virtual environment found. Create one? [Y/n]: "
-    echo
-    if [ "${create}" = "Y" ] || [ "${create}" = "y" ]; then
-      python -m venv .venv && source .venv/bin/activate
-    fi
-  fi
-}
-
-unmkdir() {
-  _file=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF) }')
-
-  echo "Undoing 'mkdir'"
-  if [ ! -z "${UNDO}" ]; then
-
-    read -q "confirm?Make directory \"${_file}\"? [Y/n]: "
-    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
-      eval ${LAST_CMD} && export UNDO=
-    fi
-
-  else
-
-    read -q "confirm?Remove \"${_file}\"? [Y/n]: "
-    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
-      rm -r ${_file} && export LAST_CMD="mkdir ${_file}" && export UNDO="1"
-
-    fi
-
-  fi
-  echo
-
-}
-
+# Undo `cp`
 uncp() {
   _file1=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF-1) }')
   _file2=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF) }')
@@ -178,6 +143,30 @@ uncp() {
   fi
 }
 
+# Undo `mkdir`
+unmkdir() {
+  _files=("${(@s/ /)$(echo ${LAST_CMD} | awk -F"mkdir " '{print $(NF)}')}")
+
+  echo "Undoing 'mkdir'"
+  if [ ! -z "${UNDO}" ]; then
+
+    read -q "confirm?Make directories: ${_files}? [Y/n]: "
+    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+      eval ${LAST_CMD} && export UNDO=
+    fi
+
+  else
+
+    read -q "confirm?Remove: ${_files}? [Y/n]: "
+    if [ "${confirm}" = "Y" ] || [ "${confirm}" = "y" ]; then
+      rm -r ${_files} && export LAST_CMD="mkdir ${_files}" && export UNDO="1"
+    fi
+
+  fi
+  echo
+}
+
+# Undo `mv`
 unmv() {
   _file1=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF-1) }')
   _file2=$(echo ${LAST_CMD} | awk 'NF>1{ print $(NF) }')
@@ -202,8 +191,8 @@ unmv() {
   fi
 }
 
+# Undo last undo-able command
 undo() {
-
   case "$(echo ${LAST_CMD} | grep -Po "(mv|cp|mkdir)(?=\s)")" in
 
     cp)
@@ -219,5 +208,17 @@ undo() {
       ;;
 
   esac
+}
 
+# Set up a Python virtual environment
+venv() {
+  if [ -d .venv ]; then
+    source .venv/bin/activate
+  else
+    read -q "create?No virtual environment found. Create one? [Y/n]: "
+    echo
+    if [ "${create}" = "Y" ] || [ "${create}" = "y" ]; then
+      python -m venv .venv && source .venv/bin/activate
+    fi
+  fi
 }

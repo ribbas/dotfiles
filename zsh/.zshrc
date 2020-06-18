@@ -79,7 +79,6 @@ cd() {
 
 # adds preprocessing to saving command history
 zshaddhistory() {
-
   setopt RE_MATCH_PCRE
   1=$(echo ${1} | sed 's@~@'${HOME}'@g')
   if [[ ${1} =~ "(?<=\W|^)(cp|mv)(?=\s)" ]]; then
@@ -93,15 +92,16 @@ zshaddhistory() {
 
   elif [[ ${1} =~ "(?<=\W|^)(mkdir)(?=\s)" ]]; then
 
-    _file=$(echo ${1} | awk 'NF>1{ print $(NF) }')
-    [[ "${_file}" != "${HOME}"* ]] && _file="${PWD}/${_file}"
-    export LAST_CMD="${match[1]} ${_file}"
+    _files=("${(@s/ /)$(echo ${1} | awk -F"${match[1]} " '{print $(NF)}')}")
+    for ((i = 1; i <= $#_files; i++)); do
+      [[ "${_files[i]}" != "${HOME}"* ]] && _files[i]="${PWD}/${_files[i]}"
+    done
+    export LAST_CMD="${match[1]} ${_files}"
     export UNDO=
 
   fi
 
   return 0
-
 }
 
 # Aliases

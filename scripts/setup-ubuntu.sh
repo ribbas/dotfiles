@@ -27,7 +27,8 @@ extra_configs () {
     echo "Setting up extra configurations..."
     # git clone https://github.com/sabbirahm3d/dotfiles .dotfiles
     ln -f ../sublime/* ${HOME}/.config/sublime*/Packages/User/
-    ln -f ../zsh/.aliases ${HOME}/.aliases
+    mkdir -p ${HOME}/.aliases
+    ln -f ../zsh/.aliases/.* ${HOME}/.aliases
     ln -f ../zsh/.zshrc ${HOME}/.zshrc
     ln -f .private-configs/* ${HOME}/.private-configs/*
     sudo ln toc.py /usr/bin/toc

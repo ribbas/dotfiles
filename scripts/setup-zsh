@@ -24,10 +24,17 @@ setup_zsh () {
     # custom fonts
     echo "Installing custom fonts..."
     curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/DejaVuSansMono.zip -o DejaVuSansMono.zip
-    unzip DejaVuSansMono.zip -d $HOME/.fonts
+    unzip DejaVuSansMono.zip -d ${HOME}/.fonts
     rm -rf DejaVuSansMono.zip
+
+    ZSH_CUSTOM=${HOME}/.oh-my-zsh/custom
 
     # PowerLevel9K theme for ZSH
     echo "Installing PowerLevel9K..."
-    git clone https://github.com/bhilburn/powerlevel9k.git ~/.oh-my-zsh/custom/themes/powerlevel9k
+    git clone https://github.com/bhilburn/powerlevel9k.git ${ZSH_CUSTOM}/themes/powerlevel9k
+
+    # zsh-autosuggestions plugin for ZSH
+    echo "Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+
 }

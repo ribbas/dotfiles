@@ -3,6 +3,9 @@
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
 
+plugins=(zsh-autosuggestions)
+ZSH_AUTOSUGGEST_USE_ASYNC=true
+
 ZSH_THEME="powerlevel9k/powerlevel9k"
 
 POWERLEVEL9K_PROMPT_ON_NEWLINE=true
@@ -126,6 +129,7 @@ export LESS_TERMCAP_se=$'\e[0m'
 export LESS_TERMCAP_so=$'\e[01;33m'
 export LESS_TERMCAP_ue=$'\e[0m'
 export LESS_TERMCAP_us=$'\e[1;4;31m'
+
 
 # Do menu-driven completion.
 zstyle ':completion:*' menu select

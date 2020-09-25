@@ -79,7 +79,7 @@ bulk() {
 }
 
 # Change current working directory to the last directory a file or directory was copied or moved to via `cp` or `mv`
-follow() {
+fl() {
   _new_path=$(history | grep -P "\s(mv|cp)\s" | tail -n1 | grep -oE '[^ ]+$' | sed 's@~@'${HOME}'@g')
   [ -f "${_new_path}" ] && cd $(dirname ${_new_path}) || cd ${_new_path}
 }

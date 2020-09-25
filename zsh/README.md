@@ -5,7 +5,7 @@
   - [aprint](#aprint)
   - [bulk](#bulk)
   - [eno](#eno)
-  - [follow](#follow)
+  - [fl](#fl)
   - [gui](#gui)
   - [gsub](#gsub)
   - [gx](#gx)
@@ -46,7 +46,7 @@ echo "lol"
 eno  # prints nothing
 ```
 
-## [follow](https://github.com/sabbirahm3d/dotfiles/blob/master/zsh/.aliases/.file#L82-L85)
+## [fl](https://github.com/sabbirahm3d/dotfiles/blob/master/zsh/.aliases/.file#L82-L85)
 Change current working directory to the last directory a file or directory was copied or moved to via `cp` or `mv`
 
 ### Example usages
@@ -56,7 +56,7 @@ Change current working directory to the last directory a file or directory was c
 ```shell
 pwd  # prints "/current/path"
 cp file1 /different/path
-follow
+fl
 pwd  # prints "/different/path"
 ```
 
@@ -65,7 +65,7 @@ pwd  # prints "/different/path"
 ```shell
 pwd  # prints "/current/path"
 mv file1 file2
-follow
+fl
 pwd  # prints "/current/path"
 ```
 

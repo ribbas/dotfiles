@@ -210,6 +210,12 @@ undo() {
   esac
 }
 
+unzd() {
+  if [[ $# != 1 ]]; then echo "Path to archive required"; return 1; fi
+  target="${1%.zip}"
+  unzip "$1" -d "${target##*/}"
+}
+
 # Set up a Python virtual environment
 venv() {
   if [ -d .venv ]; then
@@ -222,3 +228,12 @@ venv() {
     fi
   fi
 }
+
+maketex() {
+  xelatex $1 && xelatex $1
+}
+
+maketexopen() {
+  maketex $1 && pdf $(echo $1 | sed -e 's/.tex/.pdf/g')
+}
+

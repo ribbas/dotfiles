@@ -1,0 +1,18 @@
+{
+    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.editor.highlightModifiedTabs": true,
+    "editor.minimap.enabled": false,
+    "editor.formatOnSave": true,
+    "editor.fontFamily": "Fira Code",
+    "editor.fontLigatures": true,
+    "editor.tabSize": 4,
+    "files.autoSave": "onWindowChange",
+    "C_Cpp.updateChannel": "Insiders",
+    "C_Cpp.inactiveRegionOpacity": null,
+    "[cpp]": {
+        "editor.defaultFormatter": "xaver.clang-format",
+    },
+    "[html]": {
+        "editor.tabSize": 2,
+    },
+}

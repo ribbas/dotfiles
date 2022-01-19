@@ -5,7 +5,6 @@ setup_zsh () {
     # ZSH and other shell configs
     echo "Installing ZSH..."
     sudo apt install zsh -y
-    touch .zshrc
     sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) --unattended"
     echo -e "if [ -t 1 ]; then\nwhich zsh &>/dev/null && exec zsh\nfi" > ${HOME}/.bashrc
 

@@ -1,9 +1,9 @@
 {
-    "workbench.colorTheme": "Visual Studio Dark",
+    "workbench.colorTheme": "One Dark Pro Flat",
     "workbench.editor.highlightModifiedTabs": true,
     "editor.minimap.enabled": false,
+    "editor.wordWrap": "on",
     "editor.formatOnSave": true,
-    "editor.fontFamily": "Fira Code",
     "editor.fontLigatures": true,
     "editor.tabSize": 4,
     "files.autoSave": "onWindowChange",
@@ -12,7 +12,48 @@
     "[cpp]": {
         "editor.defaultFormatter": "xaver.clang-format",
     },
-    "[html]": {
-        "editor.tabSize": 2,
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
     },
+    "notebook.cellToolbarLocation": {
+        "default": "right",
+        "jupyter-notebook": "left"
+    },
+    "workbench.iconTheme": "vscode-icons",
+    "python.formatting.provider": "black",
+    "files.associations": {
+        "*.html": "jinja-html"
+    },
+    "[html]": {
+        "editor.tabSize": 2
+    },
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk",
+            "command": "latexmk",
+            "tools": [
+                "latexmk"
+            ],
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-pdf",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {
+                "TEXMFHOME": "/home/sabbir/texmf"
+            }
+        }
+    ],
+    "cmake.configureOnOpen": true,
+    "window.zoomLevel": 1,
+    "emmet.includeLanguages": {
+        "jinja-html": "html"
+    },
+    "security.workspace.trust.untrustedFiles": "open"
 }

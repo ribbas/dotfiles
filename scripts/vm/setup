@@ -25,6 +25,7 @@ custom_configs () {
     # wrapping up extra configurations
     echo "Setting up extra configurations..."
     mkdir -p ${HOME}/.aliases
+    mkdir -p ${HOME}/.aliases/.private-configs
     ln -f ../../zsh/.aliases/.* ${HOME}/.aliases
     ln -f ../../zsh/.zshrc ${HOME}/.zshrc
     ln -f .private-configs/* ${HOME}/.private-configs/*

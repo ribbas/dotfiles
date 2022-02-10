@@ -3,7 +3,7 @@
 # Path to your oh-my-zsh installation.
 export ZSH=${HOME}/.oh-my-zsh
 
-plugins=(zsh-autosuggestions)
+plugins=(zsh-autosuggestions last-working-dir)
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 ZSH_THEME="powerlevel9k/powerlevel9k"

@@ -4,7 +4,7 @@
 
 # Recursively count occurrences of string on all files in path
 strc() {
-  { { grep -src ${1} ${2} } || { echo "String not found"; return; } } | grep -v ":0$"
+  { { grep -Isrc ${1} ${2} } || { echo "String not found"; return; } } | grep -v ":0$"
 }
 
 # Recursively replace string on all files in path
@@ -14,7 +14,7 @@ strr() {
   [ "$#" -eq 3 ] && _dir="${3}" || _dir="."
 
   find ${_dir} -type f \
-    -exec grep -sq "${1}" {} \; \
+    -exec grep -Isq "${1}" {} \; \
     -printf "${blue}%p${normal}:\n" \
     -exec sed -n "/${1}/{
     h
@@ -35,5 +35,5 @@ strr() {
 
 # Recursively search string on all files in path
 strs() {
-  { grep -srn ${1} ${2} -C ${3:-4} } || echo "String not found"
+  { grep -Isrn ${1} ${2} -C ${3:-4} } || echo "String not found"
 }

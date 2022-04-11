@@ -32,7 +32,7 @@ update() {
   { git pull;
     ln -f zsh/.zshrc ${HOME};
     ln -f zsh/.aliases/.* ${HOME}/.aliases;
-    [ -d .private-configs ] && ln -f .private-configs/* ${HOME}/.private-configs } ||
+    [ `find .private-configs -prune -empty 2>/dev/null` ] && ln -f .private-configs/* ${HOME}/.private-configs } ||
   echo "Uncommitted changes found";
   cd -
 }

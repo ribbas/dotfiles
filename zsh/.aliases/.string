@@ -35,5 +35,5 @@ strr() {
 
 # Recursively search string on all files in path
 strs() {
-  { grep -Isrn ${1} ${2} -C ${3:-4} } || echo "String not found"
+  { grep -FIsrn ${1} ${2} -C ${3:-4} } || echo "String not found"
 }

@@ -1,7 +1,6 @@
 {
-    "workbench.colorTheme": "One Dark Pro Flat",
     "workbench.editor.highlightModifiedTabs": true,
-	"telemetry.telemetryLevel": "off",
+    "telemetry.telemetryLevel": "off",
     "editor.minimap.enabled": false,
     "editor.wordWrap": "on",
     "editor.formatOnSave": true,
@@ -20,7 +19,7 @@
         "default": "right",
         "jupyter-notebook": "left"
     },
-    "workbench.iconTheme": "vscode-icons",
+    "workbench.iconTheme": "material-icon-theme",
     "python.formatting.provider": "black",
     "files.associations": {
         "*.html": "jinja-html"
@@ -32,29 +31,27 @@
         "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "latex-workshop.latex.recipes": [
-        {
-            "name": "latexmk",
-            "command": "latexmk",
-            "tools": [
-                "latexmk"
-            ],
-            "args": [
-                "-synctex=1",
-                "-interaction=nonstopmode",
-                "-file-line-error",
-                "-pdf",
-                "-outdir=%OUTDIR%",
-                "%DOC%"
-            ],
-            "env": {
-                "TEXMFHOME": "/home/sabbir/texmf"
-            }
+    {
+        "name": "latexmk",
+        "command": "latexmk",
+        "tools": ["latexmk"],
+        "args": [
+            "-synctex=1",
+            "-interaction=nonstopmode",
+            "-file-line-error",
+            "-pdf",
+            "-outdir=%OUTDIR%",
+            "%DOC%"
+        ],
+        "env": {
+            "TEXMFHOME": "/home/sabbir/texmf"
         }
-    ],
+    }],
     "cmake.configureOnOpen": true,
     "window.zoomLevel": 1,
     "emmet.includeLanguages": {
         "jinja-html": "html"
     },
-    "security.workspace.trust.untrustedFiles": "open"
+    "security.workspace.trust.untrustedFiles": "open",
+    "workbench.colorTheme": "Atom One Dark"
 }

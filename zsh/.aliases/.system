@@ -31,8 +31,7 @@ update() {
   cd ${HOME}/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
   { git pull;
     ln -f zsh/.zshrc ${HOME};
-    ln -f zsh/.aliases/.* ${HOME}/.aliases;
-    [ `find .private-configs -prune -empty 2>/dev/null` ] && ln -f .private-configs/* ${HOME}/.private-configs } ||
+    ln -f zsh/.aliases/.* ${HOME}/.aliases } ||
   echo "Uncommitted changes found";
   cd -
 }

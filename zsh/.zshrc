@@ -115,10 +115,8 @@ if [[ -d ${HOME}/.aliases ]]; then
 fi
 
 # Private configs
-if [[ -d ${HOME}/.private-configs ]]; then
-  for file in ${HOME}/.private-configs/*; do
-    source "$file"
-  done
+if [[ -f ${HOME}/.private-configs ]]; then
+  source "${HOME}/.private-configs"
 fi
 
 # colorize man pages

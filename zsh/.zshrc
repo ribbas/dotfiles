@@ -1,3 +1,10 @@
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
 # ZSH config file
 
 # Path to your oh-my-zsh installation.
@@ -7,61 +14,6 @@ plugins=(zsh-autosuggestions last-working-dir)
 ZSH_AUTOSUGGEST_USE_ASYNC=true
 
 ZSH_THEME="powerlevel10k/powerlevel10k"
-
-POWERLEVEL9K_PROMPT_ON_NEWLINE=true
-POWERLEVEL9K_PROMPT_ADD_NEWLINE=false
-POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
-POWERLEVEL9K_SHORTEN_STRATEGY="truncate_beginning"
-
-POWERLEVEL9K_TIME_BACKGROUND="black"
-POWERLEVEL9K_TIME_FOREGROUND="249"
-POWERLEVEL9K_TIME_FORMAT="\uf017 %D{%I:%M}"
-
-POWERLEVEL9K_STATUS_VERBOSE=false
-
-POWERLEVEL9K_VCS_CLEAN_FOREGROUND="black"
-POWERLEVEL9K_VCS_CLEAN_BACKGROUND="green"
-POWERLEVEL9K_VCS_UNTRACKED_FOREGROUND="black"
-POWERLEVEL9K_VCS_UNTRACKED_BACKGROUND="orangered1"
-POWERLEVEL9K_VCS_MODIFIED_FOREGROUND="black"
-POWERLEVEL9K_VCS_MODIFIED_BACKGROUND="darkorange"
-POWERLEVEL9K_VCS_UNTRACKED_ICON="\uf059" 
-POWERLEVEL9K_VCS_UNSTAGED_ICON="\uf06a"
-POWERLEVEL9K_VCS_STAGED_ICON="\uf055"
-POWERLEVEL9K_VCS_STASH_ICON="\uf01c "
-POWERLEVEL9K_VCS_INCOMING_CHANGES_ICON="\uf01a "
-POWERLEVEL9K_VCS_OUTGOING_CHANGES_ICON="\uf01b "
-POWERLEVEL9K_VCS_TAG_ICON="\uf02b "
-POWERLEVEL9K_VCS_BOOKMARK_ICON="\uf461 "
-POWERLEVEL9K_VCS_COMMIT_ICON="\ue729 "
-POWERLEVEL9K_VCS_BRANCH_ICON="\uf126 "
-POWERLEVEL9K_VCS_REMOTE_BRANCH_ICON="\ue728 "
-POWERLEVEL9K_VCS_GIT_ICON="\uf1d3 "
-
-POWERLEVEL9K_VIRTUALENV_FOREGROUND="black"
-POWERLEVEL9K_VIRTUALENV_BACKGROUND="yellow"
-POWERLEVEL9K_PYTHON_ICON="\ue73c"
-
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_BACKGROUND="black"
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_FOREGROUND="blue"
-POWERLEVEL9K_COMMAND_EXECUTION_TIME_THRESHOLD=0
-
-POWERLEVEL9K_STATUS_OK_IN_NON_VERBOSE=true
-POWERLEVEL9K_STATUS_VERBOSE=false
-
-POWERLEVEL9K_MULTILINE_FIRST_PROMPT_PREFIX="%F{blue}\u256D\u2500%f"
-POWERLEVEL9K_MULTILINE_LAST_PROMPT_PREFIX="%F{blue}\u2570\uf460%f "
-
-POWERLEVEL9K_BATTERY_CHARGING="yellow"
-POWERLEVEL9K_BATTERY_CHARGED="green"
-POWERLEVEL9K_BATTERY_DISCONNECTED="$DEFAULT_COLOR"
-POWERLEVEL9K_BATTERY_LOW_THRESHOLD="20"
-POWERLEVEL9K_BATTERY_LOW_COLOR="red"
-POWERLEVEL9K_BATTERY_ICON="\uf1e6"
-
-POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(dir time battery virtualenv vcs root_indicator dir_writable status)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(background_jobs)
-HIST_STAMPS="mm/dd/yyyy"
 
 # Hyphen-insensitive completion. _ and - will be interchangeable.
 HYPHEN_INSENSITIVE="true"
@@ -145,3 +97,6 @@ zstyle ':completion:*' group-name ''
 
 # Completers for custom aliases
 zstyle ':completion:*:*:pdf*:*' file-patterns '*.pdf *(-/)'
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

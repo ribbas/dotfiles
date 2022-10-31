@@ -1,4 +1,5 @@
 {
+    "workbench.colorTheme": "One Dark Pro Darker",
     "workbench.editor.highlightModifiedTabs": true,
     "telemetry.telemetryLevel": "off",
     "editor.minimap.enabled": false,
@@ -10,48 +11,59 @@
     "C_Cpp.updateChannel": "Insiders",
     "C_Cpp.inactiveRegionOpacity": null,
     "[cpp]": {
-        "editor.defaultFormatter": "xaver.clang-format"
+      "editor.defaultFormatter": "xaver.clang-format"
     },
     "workbench.editorAssociations": {
-        "*.ipynb": "jupyter-notebook"
+      "*.ipynb": "jupyter-notebook"
     },
     "notebook.cellToolbarLocation": {
-        "default": "right",
-        "jupyter-notebook": "left"
+      "default": "right",
+      "jupyter-notebook": "left"
     },
-    "workbench.iconTheme": "material-icon-theme",
+    "workbench.iconTheme": "vscode-icons",
     "python.formatting.provider": "black",
+    "python.formatting.blackArgs": ["--line-length", "80"],
     "files.associations": {
-        "*.html": "jinja-html"
+      "*.html": "jinja-html"
     },
+    "python.analysis.typeCheckingMode": "basic",
     "[html]": {
-        "editor.tabSize": 2
+      "editor.tabSize": 2
     },
     "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
     },
     "latex-workshop.latex.recipes": [
-    {
+      {
         "name": "latexmk",
         "command": "latexmk",
         "tools": ["latexmk"],
         "args": [
-            "-synctex=1",
-            "-interaction=nonstopmode",
-            "-file-line-error",
-            "-pdf",
-            "-outdir=%OUTDIR%",
-            "%DOC%"
+          "-synctex=1",
+          "-interaction=nonstopmode",
+          "-file-line-error",
+          "-pdf",
+          "-outdir=%OUTDIR%",
+          "%DOC%"
         ],
         "env": {
-            "TEXMFHOME": "/home/sabbir/texmf"
+          "TEXMFHOME": "/home/sabbir/texmf"
         }
-    }],
+      }
+    ],
+    "latex-workshop.latex.autoBuild.run":"never",
+    "[latex]": {
+      "editor.formatOnSave": false,
+    },
     "cmake.configureOnOpen": true,
     "window.zoomLevel": 1,
     "emmet.includeLanguages": {
-        "jinja-html": "html"
+      "jinja-html": "html"
     },
     "security.workspace.trust.untrustedFiles": "open",
-    "workbench.colorTheme": "Atom One Dark"
+    "cSpell.userWords": [],
+    "[c]": {
+      "editor.defaultFormatter": "xaver.clang-format"
+    },
+    "vsicons.dontShowNewVersionMessage": true
 }

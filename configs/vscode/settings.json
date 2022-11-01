@@ -39,7 +39,7 @@
         "command": "latexmk",
         "tools": ["latexmk"],
         "args": [
-          "-synctex=1",
+          "-xelatex",
           "-interaction=nonstopmode",
           "-file-line-error",
           "-pdf",
@@ -51,7 +51,7 @@
         }
       }
     ],
-    "latex-workshop.latex.autoBuild.run":"never",
+    "latex-workshop.latex.autoBuild.run" : "onSave",
     "[latex]": {
       "editor.formatOnSave": false
     },

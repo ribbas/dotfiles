@@ -25,13 +25,18 @@ eno() {
   [ ${_e} -ne 0 ] && { [ ${_e} -le 134 ] && errno ${_e} || echo "${_e} Unknown error" } || true
 }
 
+link_configs() {
+  CONFIGS=${HOME}/.dotfiles/configs
+  ln -f ${CONFIGS}/zsh/.aliases/.* ${HOME}/.aliases
+  ln -f ${CONFIGS}/zsh/.zshrc ${HOME}/.zshrc
+  ln -f ${CONFIGS}/zsh/.p10k.zsh ${HOME}/.p10k.zsh
+  ln -f ${CONFIGS}/vscode/settings.json ${HOME}/.config/Code/User/settings.json
+}
+
 # Chain apt update and clean commands and refresh alias links
 update() {
   sudo apt update -y && sudo apt upgrade -y && sudo apt autoremove -y && sudo apt autoclean -y
   cd ${HOME}/.dotfiles && [ "$(parse_git_dirty)" = "$ZSH_THEME_GIT_PROMPT_CLEAN" ] &&
-  { git pull;
-    ln -f zsh/.zshrc ${HOME};
-    ln -f zsh/.aliases/.* ${HOME}/.aliases } ||
-  echo "Uncommitted changes found";
+  { git pull && link_configs } || echo "Uncommitted changes found";
   cd -
 }

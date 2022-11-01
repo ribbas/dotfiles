@@ -1,69 +1,112 @@
 {
-    "workbench.colorTheme": "One Dark Pro Darker",
-    "workbench.editor.highlightModifiedTabs": true,
-    "telemetry.telemetryLevel": "off",
-    "editor.minimap.enabled": false,
-    "editor.wordWrap": "on",
+  // global formatting
+  "editor.defaultFormatter": null,
+  "editor.fontLigatures": true,
+  "editor.tabSize": 4,
+  "editor.wordWrap": "on",
+
+  // editor appearance
+  "editor.minimap.enabled": false,
+  "workbench.editor.highlightModifiedTabs": true,
+  "workbench.colorTheme": "One Dark Pro",
+  "workbench.iconTheme": "vscode-icons",
+  "window.zoomLevel": 1,
+  "vsicons.dontShowNewVersionMessage": true,
+
+  // security
+  "security.workspace.trust.untrustedFiles": "open",
+  "telemetry.telemetryLevel": "off",
+
+  "files.autoSave": "onWindowChange",
+
+  // ---------- language-specific ----------
+  // C/C++
+  "[c]": {
     "editor.formatOnSave": true,
-    "editor.fontLigatures": true,
-    "editor.tabSize": 4,
-    "files.autoSave": "onWindowChange",
-    "C_Cpp.updateChannel": "Insiders",
-    "C_Cpp.inactiveRegionOpacity": null,
-    "[cpp]": {
-      "editor.defaultFormatter": "xaver.clang-format"
-    },
-    "workbench.editorAssociations": {
-      "*.ipynb": "jupyter-notebook"
-    },
-    "notebook.cellToolbarLocation": {
-      "default": "right",
-      "jupyter-notebook": "left"
-    },
-    "workbench.iconTheme": "vscode-icons",
-    "python.formatting.provider": "black",
-    "python.formatting.blackArgs": ["--line-length", "80"],
-    "files.associations": {
-      "*.html": "jinja-html"
-    },
-    "python.analysis.typeCheckingMode": "basic",
-    "[html]": {
-      "editor.tabSize": 2
-    },
-    "[javascript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "latex-workshop.latex.recipes": [
-      {
-        "name": "latexmk",
-        "command": "latexmk",
-        "tools": ["latexmk"],
-        "args": [
-          "-xelatex",
-          "-interaction=nonstopmode",
-          "-file-line-error",
-          "-pdf",
-          "-outdir=%OUTDIR%",
-          "%DOC%"
-        ],
-        "env": {
-          "TEXMFHOME": "/home/sabbir/texmf"
-        }
+    "editor.defaultFormatter": "xaver.clang-format"
+  },
+  "[cpp]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "xaver.clang-format"
+  },
+  "cmake.configureOnOpen": true,
+
+  // HTML
+  "[html]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "files.associations": {
+    "*.html": "jinja-html"
+  },
+  "emmet.includeLanguages": {
+    "jinja-html": "html"
+  },
+
+  // JavaScript
+  "[javascript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // JSON
+  "[json]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
+  // Python
+  "[python]": {
+    "editor.formatOnSave": true
+  },
+  "python.analysis.typeCheckingMode": "basic",
+  "python.formatting.provider": "black",
+  "python.formatting.blackPath": "~/.local/bin/black",
+  "python.formatting.blackArgs": ["--line-length", "80"],
+
+  // LaTex
+  "[latex]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2
+  },
+  "latex-workshop.latex.recipes": [
+    {
+      "name": "latexmk",
+      "tools": ["latexmk"]
+    }
+  ],
+  "latex-workshop.latex.tools": [
+    {
+      "name": "latexmk",
+      "command": "latexmk",
+      "args": [
+        "-xelatex",
+        "-interaction=nonstopmode",
+        "-file-line-error",
+        "-pdf",
+        "-outdir=%OUTDIR%",
+        "%DOC%"
+      ],
+      "env": {
+        "TEXMFHOME": "~/texmf"
       }
-    ],
-    "latex-workshop.latex.autoBuild.run" : "onSave",
-    "[latex]": {
-      "editor.formatOnSave": false
-    },
-    "cmake.configureOnOpen": true,
-    "window.zoomLevel": 1,
-    "emmet.includeLanguages": {
-      "jinja-html": "html"
-    },
-    "security.workspace.trust.untrustedFiles": "open",
-    "cSpell.userWords": [],
-    "[c]": {
-      "editor.defaultFormatter": "xaver.clang-format"
-    },
-    "vsicons.dontShowNewVersionMessage": true
+    }
+  ],
+  "latex-workshop.latex.autoBuild.run": "onSave",
+
+  // Jupyter Notebook
+  "workbench.editorAssociations": {
+    "*.ipynb": "jupyter-notebook"
+  },
+  "notebook.cellToolbarLocation": {
+    "default": "right",
+    "jupyter-notebook": "left"
+  },
+
+  "cSpell.userWords": []
 }

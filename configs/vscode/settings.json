@@ -53,7 +53,7 @@
     ],
     "latex-workshop.latex.autoBuild.run":"never",
     "[latex]": {
-      "editor.formatOnSave": false,
+      "editor.formatOnSave": false
     },
     "cmake.configureOnOpen": true,
     "window.zoomLevel": 1,

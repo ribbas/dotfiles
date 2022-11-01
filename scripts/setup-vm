@@ -1,0 +1,101 @@
+#!/bin/sh
+set -o errexit
+
+essentials () {
+    # GCC and Makefile
+    echo "Installing GNU tools..."
+    sudo apt install gcc make curl wget -y
+    sudo apt install build-essential libssl-dev libffi-dev -y
+    sudo apt install apt-transport-https ca-certificates software-properties-common -y
+
+    # Gnome tweaks and extensions
+    echo "Installing Gnome tweaks..."
+    sudo apt install gnome-tweaks gnome-shell-extensions chrome-gnome-shell -y
+}
+
+setup_git() {
+
+    # Git
+    echo "Installing and setting up Git..."
+    read -p $'Enter your GitHub username: ' username
+    read -p $'Enter your GitHub email: ' email
+    if [ -z $username ] || [ -z $email ]; then
+        echo "Provide both your GitHub username and email\nExample: \`username email\`"
+    else
+        git config --global user.name $username
+        git config --global user.email $email
+        git config --global credential.helper store
+    fi
+
+}
+
+setup_zsh () {
+    # ZSH and other shell configs
+    echo "Installing ZSH..."
+    sudo apt install zsh -y
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh) --unattended"
+    echo -e "if [ -t 1 ]; then\nwhich zsh &>/dev/null && exec zsh\nfi" > ${HOME}/.bashrc
+
+    # customized ls
+    echo "Installing colorls..."
+    sudo apt install ruby-full -y
+    sudo gem install colorls
+
+    # download ccat from https://github.com/jingweno/ccat/releases
+    echo "Installing ccat..."
+    curl -sL https://github.com/jingweno/ccat/releases/download/v1.1.0/linux-amd64-1.1.0.tar.gz | tar xz
+    sudo mkdir -p /usr/share/ccat
+    sudo mv linux-amd64-1.1.0/ccat /usr/share/ccat/ccat
+    rm -rf linux-amd64-1.1.0
+
+    # custom fonts
+    echo "Installing custom fonts..."
+    curl -L https://github.com/ryanoasis/nerd-fonts/releases/download/v2.0.0/DejaVuSansMono.zip -o DejaVuSansMono.zip
+    unzip DejaVuSansMono.zip -d ${HOME}/.fonts
+    rm -rf DejaVuSansMono.zip
+
+    ZSH_CUSTOM=${HOME}/.oh-my-zsh/custom
+
+    # PowerLevel9K theme for ZSH
+    echo "Installing PowerLevel10K..."
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM}/themes/powerlevel10k
+
+    # zsh-autosuggestions plugin for ZSH
+    echo "Installing zsh-autosuggestions..."
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM}/plugins/zsh-autosuggestions
+
+}
+
+py_dev () {
+    # Python
+    echo "Installing Python development tools..."
+    sudo apt install python3.10 python3.10-venv python3-pip python3-dev -y
+    sudo update-alternatives --install /usr/bin/python python /usr/bin/python3.10 1
+    sudo update-alternatives --set python /usr/bin/python3.10
+}
+
+vscode () {
+    echo "Installing VSCode..."
+    sudo snap install --classic code
+}
+
+configs () {
+    # wrapping up extra configurations
+    echo "Setting up extra configurations..."
+    CONFIGS=${HOME}/.dotfiles/configs
+    mkdir -p ${HOME}/.aliases
+    ln -f ${CONFIGS}/zsh/.aliases/.* ${HOME}/.aliases
+    ln -f ${CONFIGS}/zsh/.zshrc ${HOME}/.zshrc
+    ln -f ${CONFIGS}/zsh/.p10k.zsh ${HOME}/.p10k.zsh
+    ln -f ${CONFIGS}/vscode/settings.json ${HOME}/.config/Code/User/settings.json
+
+    mkdir -p ${HOME}/.aliases/.private-configs
+    ln -f .private-configs/* ${HOME}/.private-configs/*
+}
+
+essentials
+setup_git
+setup_zsh
+py_dev
+vscode
+configs

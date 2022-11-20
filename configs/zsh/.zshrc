@@ -97,6 +97,7 @@ zstyle ':completion:*' group-name ''
 
 # Completers for custom aliases
 zstyle ':completion:*:*:pdf*:*' file-patterns '*.pdf *(-/)'
+zstyle ':completion:*:*:llatex*:*' file-patterns '*.tex *(-/)'
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

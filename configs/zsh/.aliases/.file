@@ -229,10 +229,6 @@ venv() {
   fi
 }
 
-maketexopen() {
-  maketex $1 && pdf $(echo $1 | sed -e 's/.tex/.pdf/g')
-}
-
-livelatex() {
+llatex() {
   latexmk -xelatex -pvc $1
 }

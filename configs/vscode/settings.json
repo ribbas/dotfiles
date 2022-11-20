@@ -97,7 +97,14 @@
       }
     }
   ],
-  "latex-workshop.latex.autoBuild.run": "onSave",
+  "latex-workshop.latexindent.args": [
+    "-c",
+    "%DIR%/",
+    "%TMPFILE%",
+    "-y=defaultIndent: '%INDENT%'",
+    "-l"
+  ],
+  "latex-workshop.latex.autoBuild.run": "never",
 
   // Jupyter Notebook
   "workbench.editorAssociations": {

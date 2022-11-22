@@ -1,6 +1,8 @@
 {
-  // global formatting
+  // ---------- global ----------
+  // formatting
   "editor.defaultFormatter": null,
+  "editor.detectIndentation": false,
   "editor.fontLigatures": true,
   "editor.tabSize": 4,
   "editor.wordWrap": "on",
@@ -18,6 +20,7 @@
   "telemetry.telemetryLevel": "off",
 
   "files.autoSave": "onWindowChange",
+  "cSpell.userWords": [],
 
   // ---------- language-specific ----------
   // C/C++
@@ -97,14 +100,13 @@
       }
     }
   ],
-  "latex-workshop.latexindent.args": [
-    "-c",
-    "%DIR%/",
-    "%TMPFILE%",
-    "-y=defaultIndent: '%INDENT%'",
-    "-l"
-  ],
   "latex-workshop.latex.autoBuild.run": "never",
+
+  "[shellscript]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "foxundermoon.shell-format"
+  },
 
   // Jupyter Notebook
   "workbench.editorAssociations": {
@@ -113,7 +115,5 @@
   "notebook.cellToolbarLocation": {
     "default": "right",
     "jupyter-notebook": "left"
-  },
-
-  "cSpell.userWords": []
+  }
 }

@@ -2,7 +2,7 @@
 
 # Zsh aliases for file utilities
 
-alias cat="/usr/share/ccat/ccat -G String='darkgreen' -G Plaintext='blue' -G Comment='darkyellow' -G HTMLTag='purple' -G Literal='darkred' -G Tag='Fuscia'"
+alias cat="highlight -O ansi --force"
 alias xclip="xclip -selection c"
 
 alias ls="colorls"

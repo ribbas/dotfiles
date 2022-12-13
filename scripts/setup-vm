@@ -42,11 +42,8 @@ setup_zsh() {
   sudo gem install colorls
 
   # download ccat from https://github.com/jingweno/ccat/releases
-  echo "Installing ccat..."
-  curl -sL https://github.com/jingweno/ccat/releases/download/v1.1.0/linux-amd64-1.1.0.tar.gz | tar xz
-  sudo mkdir -p /usr/share/ccat
-  sudo mv linux-amd64-1.1.0/ccat /usr/share/ccat/ccat
-  rm -rf linux-amd64-1.1.0
+  echo "Installing highlight..."
+  sudo apt install highlight
 
   # custom fonts
   echo "Installing custom fonts..."

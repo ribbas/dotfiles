@@ -108,6 +108,20 @@
     "editor.defaultFormatter": "foxundermoon.shell-format"
   },
 
+  // Verilog
+  "[verilog]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "bmpenuelas.systemverilog-formatter-vscode"
+  },
+
+  // SystemVerilog
+  "[systemverilog]": {
+    "editor.formatOnSave": true,
+    "editor.tabSize": 2,
+    "editor.defaultFormatter": "bmpenuelas.systemverilog-formatter-vscode"
+  },
+
   // Jupyter Notebook
   "workbench.editorAssociations": {
     "*.ipynb": "jupyter-notebook"

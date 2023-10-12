@@ -9,13 +9,13 @@ strc() {
 
 # Recursively replace string on all files in path
 strr() {
-  blue=$(tput setaf 4)
+  teal=$(tput setaf 6)
   normal=$(tput sgr0)
   [ "$#" -eq 3 ] && _dir="${3}" || _dir="."
 
   find ${_dir} -type f \
     -exec grep -Isq "${1}" {} \; \
-    -printf "${blue}%p${normal}:\n" \
+    -printf "${teal}%p${normal}:\n" \
     -exec sed -n "/${1}/{
     h
     s//${2}/g

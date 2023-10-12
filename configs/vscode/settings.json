@@ -53,6 +53,17 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
 
+  // TypeScript
+  "[typescript]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  // TypeScript
+  "[typescriptreact]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+
   // JSON
   "[json]": {
     "editor.formatOnSave": true,
@@ -129,5 +140,6 @@
   "notebook.cellToolbarLocation": {
     "default": "right",
     "jupyter-notebook": "left"
-  }
+  },
+  "typescript.updateImportsOnFileMove.enabled": "always"
 }
